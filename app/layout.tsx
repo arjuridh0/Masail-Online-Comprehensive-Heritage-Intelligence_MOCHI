@@ -81,8 +81,13 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/mascot/mochi-2d.png",
-    apple: "/mascot/mochi-2d.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.png", type: "image/png", sizes: "64x64" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
