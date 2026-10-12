@@ -1,0 +1,65 @@
+# MOCHI — .gitignore
+
+# Environment variables (JANGAN PERNAH commit ini!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Next.js
+.next/
+out/
+.vercel
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Supabase local (jika pakai Supabase CLI)
+.supabase/
+supabase/.temp/
+supabase/backup/
+
+# Misc
+*.pem
+.eslintcache
+.prettierignore.local
+*.tsbuildinfo
+
+# Dokumen Lomba & Internal
+/docs/
+*.pdf
+task.md
+AGENTS.md
+
+# Skrip Utility & Database Seed (lokal/pengembangan)
+/scripts/
+supabase/seed/
+
+# Scratch & Logs
+scratch/
+*.log
+
