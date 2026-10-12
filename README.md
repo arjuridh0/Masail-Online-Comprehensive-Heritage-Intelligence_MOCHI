@@ -13,6 +13,13 @@ Karya untuk **Lomba Santrivision 2026** (Direktorat Pendidikan Diniyah dan Pondo
 
 ---
 
+### 🖥️ Pratinjau Antarmuka Dasbor Pengelola Lembaga Pesantren
+<p align="center">
+  <img src="public/screenshots/dasbor-lembaga.png" alt="Dasbor Pengelola Lembaga Pesantren MOCHI" width="100%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" />
+</p>
+
+---
+
 ## 🏗️ Arsitektur Teknologi
 
 ```mermaid
