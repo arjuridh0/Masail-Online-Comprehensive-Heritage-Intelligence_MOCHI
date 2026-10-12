@@ -256,7 +256,8 @@ export async function lupaSandiAction(prevState: unknown, formData: FormData) {
   }
 
   const adminDb = createAdminClient()
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'http://localhost:3000'
+  const siteUrl = /^https?:\/\//i.test(rawSiteUrl) ? rawSiteUrl.replace(/\/+$/, '') : `https://${rawSiteUrl.replace(/\/+$/, '')}`
   const redirectTo = `${siteUrl}/reset-sandi`
 
   // 1. Periksa apakah pengguna dengan email ini terdaftar di database Auth Supabase

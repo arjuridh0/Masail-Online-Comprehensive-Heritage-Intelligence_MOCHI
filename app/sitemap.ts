@@ -1,8 +1,9 @@
-﻿import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mochi.pesantren.id'
+  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://mochi.pesantren.id'
+  const baseUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl.replace(/\/+$/, '') : `https://${rawUrl.replace(/\/+$/, '')}`
 
   const routes: MetadataRoute.Sitemap = [
     {

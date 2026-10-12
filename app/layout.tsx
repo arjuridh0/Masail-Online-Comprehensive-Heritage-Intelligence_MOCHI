@@ -23,10 +23,19 @@ export const viewport: Viewport = {
   themeColor: "#1E3F30",
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mochi.pesantren.id";
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://mochi.pesantren.id";
+const siteUrl = /^https?:\/\//i.test(rawSiteUrl) ? rawSiteUrl.replace(/\/+$/, "") : `https://${rawSiteUrl.replace(/\/+$/, "")}`;
+
+function getSafeUrl(urlStr: string): URL {
+  try {
+    return new URL(urlStr);
+  } catch {
+    return new URL("https://mochi.pesantren.id");
+  }
+}
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: getSafeUrl(siteUrl),
   title: {
     default: "MOCHI — Masail Online & Comprehensive Heritage Intelligence",
     template: "%s | MOCHI Pesantren",
