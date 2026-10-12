@@ -1,0 +1,23 @@
+﻿# MOCHI — Masail Online & Comprehensive Heritage Intelligence
+
+> Repositori digital keputusan Bahtsul Masail pesantren Nusantara (tradisi Nahdlatul Ulama).
+> Karya untuk Santrivision 2026, Direktorat Pendidikan Diniyah dan Pondok Pesantren, Kementerian Agama Republik Indonesia.
+
+## Ikhtisar Sistem
+MOCHI menghimpun naskah keputusan forum musyawarah fiqih (Bahtsul Masail) se-Indonesia dengan rujukan turats bersanad. Setiap keputusan memuat:
+- Masalah (Waqi'iyyah / Maudhu'iyyah)
+- As'ilah (Pertanyaan hukum fiqih)
+- Diktum Jawaban (Keputusan mufakat ulama)
+- Al-Ma'khadz (Kutipan ibarat kitab kuning Arab berharakat dengan juz dan halaman)
+- Sanad Musyawarah (Dewan Mushohhih, Perumus, Moderator, Notulen, Lembaga Penyelenggara dengan NSPP Kemenag)
+
+## Direktori & Rute Publik
+- Beranda: /
+- Perpustakaan & Katalog: /perpustakaan
+- Direktori Lembaga Pesantren: /lembaga
+- Indeks Rujukan Kitab: /kitab
+- Tanya MOCHI (AI Chatbot Bersitasi): /tanya
+- API Status Sistem: /api/health
+
+## Prinsip Hukum & Fatwa
+Platform MOCHI tidak menerbitkan fatwa mandiri. Semua jawaban chatbot "Tanya MOCHI" bersumber 100% dari data arsip musyawarah ulama dengan batas ambang relevansi minimum (Zero-Hallucination Guard). Perbedaan pendapat antar-forum disajikan secara netral (khilafiyah).
