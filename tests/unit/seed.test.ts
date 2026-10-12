@@ -77,14 +77,14 @@ describe("Seed Data Quality & Integrity Test", () => {
       f.masalah.map((m) => ({ ...m, forum_slug: f.slug }))
     );
 
-    const dnaTheme = allMasalah.filter((m) => m.kata_kunci.some((k) => k.includes("dna")));
-    const kriptoTheme = allMasalah.filter((m) => m.kata_kunci.some((k) => k.includes("kripto")));
-    const dropshipTheme = allMasalah.filter((m) => m.kata_kunci.some((k) => k.includes("dropship")));
-    const organTheme = allMasalah.filter((m) => m.kata_kunci.some((k) => k.includes("organ")));
+    const dnaTheme = allMasalah.filter((m: { kata_kunci?: string[] }) => m.kata_kunci?.some((k: string) => k.includes("dna")));
+    const kriptoTheme = allMasalah.filter((m: { kata_kunci?: string[] }) => m.kata_kunci?.some((k: string) => k.includes("kripto")));
+    const dropshipTheme = allMasalah.filter((m: { kata_kunci?: string[] }) => m.kata_kunci?.some((k: string) => k.includes("dropship")));
+    const organTheme = allMasalah.filter((m: { kata_kunci?: string[] }) => m.kata_kunci?.some((k: string) => k.includes("organ")));
 
-    expect(new Set(dnaTheme.map((m) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
-    expect(new Set(kriptoTheme.map((m) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
-    expect(new Set(dropshipTheme.map((m) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
-    expect(new Set(organTheme.map((m) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
+    expect(new Set(dnaTheme.map((m: { forum_slug?: string }) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
+    expect(new Set(kriptoTheme.map((m: { forum_slug?: string }) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
+    expect(new Set(dropshipTheme.map((m: { forum_slug?: string }) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
+    expect(new Set(organTheme.map((m: { forum_slug?: string }) => m.forum_slug)).size).toBeGreaterThanOrEqual(2);
   });
 });
