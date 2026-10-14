@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import Image from "next/image";
 import {
   Building2,
@@ -8,6 +8,7 @@ import {
   EyeOff,
   Image as ImageIcon,
   KeyRound,
+  Loader2,
   Lock,
   Save,
   Upload,
@@ -16,6 +17,7 @@ import {
   updateProfilLembagaAction,
   ubahKataSandiLembagaAction,
 } from "@/app/dasbor/actions";
+import { toast } from "@/components/ui/SwipeToast";
 
 export interface ProfilLembagaData {
   nama: string;
@@ -43,10 +45,33 @@ export default function FormProfilLembaga({
   );
   const [showSandi, setShowSandi] = useState(false);
   const [showKonfirmasi, setShowKonfirmasi] = useState(false);
+
+  const [profilState, profilAction, isPendingProfil] = useActionState(
+    updateProfilLembagaAction,
+    null
+  );
   const [sandiState, sandiAction, isPendingSandi] = useActionState(
     ubahKataSandiLembagaAction,
     null
   );
+
+  // Trigger SwipeToast setelah aksi profil selesai
+  useEffect(() => {
+    if (profilState?.success) {
+      toast.success(profilState.message || "Profil berhasil diperbarui.");
+    } else if (profilState?.error) {
+      toast.error(profilState.error);
+    }
+  }, [profilState]);
+
+  // Trigger SwipeToast setelah aksi sandi selesai
+  useEffect(() => {
+    if (sandiState?.success) {
+      toast.success(sandiState.message || "Kata sandi berhasil diubah.");
+    } else if (sandiState?.error) {
+      toast.error(sandiState.error);
+    }
+  }, [sandiState]);
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,6 +80,7 @@ export default function FormProfilLembaga({
       setLogoPreview(url);
     }
   };
+
 
   return (
     <div className="space-y-6">
@@ -125,7 +151,7 @@ export default function FormProfilLembaga({
             </p>
           </div>
 
-          <form action={updateProfilLembagaAction} className="space-y-5">
+          <form action={profilAction} className="space-y-5">
             {/* Bagian Logo Lembaga */}
             <div>
               <label className="text-xs font-semibold text-stone-700 block mb-2">
@@ -295,13 +321,29 @@ export default function FormProfilLembaga({
               />
             </div>
 
+            {profilState?.error && (
+              <p className="rounded-xl bg-rose-50 px-3.5 py-2.5 text-xs text-rose-700 border border-rose-200" role="alert">
+                {profilState.error}
+              </p>
+            )}
+
             <div className="flex justify-end pt-4 border-t border-stone-100">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#1E3F30] px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-[#2D5A46] transition-all"
+                disabled={isPendingProfil}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#1E3F30] px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-[#2D5A46] active:scale-[0.98] transition-all disabled:opacity-60"
               >
-                <Save className="h-4 w-4" />
-                <span>Simpan Pembaruan Profil</span>
+                {isPendingProfil ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin text-white" />
+                    <span>Menyimpan Perubahan...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    <span>Simpan Pembaruan Profil</span>
+                  </>
+                )}
               </button>
             </div>
           </form>

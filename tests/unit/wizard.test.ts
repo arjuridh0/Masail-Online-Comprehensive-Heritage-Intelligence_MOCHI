@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { konversiKeHijriah } from '@/lib/hijri'
 import {
   wizardForumSchema,
@@ -105,5 +105,64 @@ describe('Validasi Wizard Forum (lib/validation/wizard.ts)', () => {
       ],
     })
     expect(valid.success).toBe(true)
+  })
+
+  it('memvalidasi batasan foto dokumentasi forum maksimal 6 foto', () => {
+    const validEnamFoto = wizardForumSchema.safeParse({
+      tuan_rumah: 'Pondok Pesantren Lirboyo',
+      tanggal_mulai: '2024-05-18',
+      masalah: [
+        {
+          judul: 'Hukum Paylater dan Bunga Tersembunyi',
+          topik: ['muamalah'],
+          pertanyaan: [
+            {
+              label: 'a',
+              teks: 'Apakah skema paylater termasuk riba nasiah?',
+              jawaban: 'Ya, apabila terdapat denda keterlambatan yang dipersyaratkan.',
+              rujukan: [],
+            },
+          ],
+        },
+      ],
+      dokumentasi: [
+        'https://example.com/foto1.jpg',
+        'https://example.com/foto2.jpg',
+        'https://example.com/foto3.jpg',
+        'https://example.com/foto4.jpg',
+        'https://example.com/foto5.jpg',
+        'https://example.com/foto6.jpg',
+      ],
+    })
+    expect(validEnamFoto.success).toBe(true)
+
+    const invalidTujuhFoto = wizardForumSchema.safeParse({
+      tuan_rumah: 'Pondok Pesantren Lirboyo',
+      tanggal_mulai: '2024-05-18',
+      masalah: [
+        {
+          judul: 'Hukum Paylater dan Bunga Tersembunyi',
+          topik: ['muamalah'],
+          pertanyaan: [
+            {
+              label: 'a',
+              teks: 'Apakah skema paylater termasuk riba nasiah?',
+              jawaban: 'Ya, apabila terdapat denda keterlambatan yang dipersyaratkan.',
+              rujukan: [],
+            },
+          ],
+        },
+      ],
+      dokumentasi: [
+        'https://example.com/foto1.jpg',
+        'https://example.com/foto2.jpg',
+        'https://example.com/foto3.jpg',
+        'https://example.com/foto4.jpg',
+        'https://example.com/foto5.jpg',
+        'https://example.com/foto6.jpg',
+        'https://example.com/foto7.jpg',
+      ],
+    })
+    expect(invalidTujuhFoto.success).toBe(false)
   })
 })

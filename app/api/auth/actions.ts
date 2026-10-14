@@ -7,6 +7,8 @@ import { loginSchema, daftarLembagaSchema } from '@/lib/validation/auth'
 import { validasiBerkasUpload } from '@/lib/validation/upload'
 import { checkRateLimit } from '@/lib/ratelimit'
 import { randomUUID } from 'crypto'
+import { kirimEmailNotifikasi } from '@/lib/email'
+import { templatePendaftaranBaruAdmin } from '@/lib/email/templates'
 
 export async function loginAction(prevState: unknown, formData: FormData) {
   const email = formData.get('email') as string
@@ -139,9 +141,9 @@ export async function daftarAction(prevState: unknown, formData: FormData) {
   let dokumenBuktiPath: string | null = null
   const file = formData.get('dokumen_bukti') as File | null
 
-  if (data.jenis !== 'pesantren' && (!file || file.size === 0)) {
+  if ((data.jenis === 'lbm_pwnu' || data.jenis === 'lbm_pcnu') && (!file || file.size === 0)) {
     return {
-      error: 'Lembaga non-pesantren (LBM PCNU/PWNU) wajib mengunggah berkas SK Kepengurusan resmi (PDF/JPG/PNG maksimal 10 MB).',
+      error: 'LBM PCNU/PWNU wajib mengunggah berkas SK Kepengurusan resmi (PDF/JPG/PNG maksimal 10 MB).',
     }
   }
 
@@ -226,6 +228,23 @@ export async function daftarAction(prevState: unknown, formData: FormData) {
       nspp: data.nspp,
     },
   })
+
+  // 8. Kirim notifikasi email ke Admin MOCHI
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@mochi.pesantren.id'
+  const tpl = templatePendaftaranBaruAdmin({
+    namaLembaga: data.nama_lembaga,
+    jenis: data.jenis,
+    kota: data.kota,
+    provinsi: data.provinsi,
+    namaPj: data.nama_penanggung_jawab,
+    emailPj: data.email,
+    teleponPj: data.telepon,
+  })
+  kirimEmailNotifikasi({
+    to: adminEmail,
+    subject: tpl.subject,
+    html: tpl.html,
+  }).catch((e) => console.error('Gagal kirim email pendaftaran ke admin:', e))
 
   return {
     success: true,

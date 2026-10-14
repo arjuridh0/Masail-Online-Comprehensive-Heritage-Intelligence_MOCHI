@@ -7,6 +7,7 @@ export const MIME_GAMBAR_VALID = ['image/jpeg', 'image/png', 'image/webp']
 export const MIME_DOKUMEN_VALID = ['application/pdf', 'image/jpeg', 'image/png']
 
 export const MAX_UKURAN_GAMBAR = 3 * 1024 * 1024 // 3 MB
+export const MAX_UKURAN_DOKUMENTASI = 5 * 1024 * 1024 // 5 MB (Dokumentasi Foto Kegiatan Forum)
 export const MAX_UKURAN_DOKUMEN = 10 * 1024 * 1024 // 10 MB (SK Kepengurusan LBM & Bukti Pesantren)
 
 export interface HasilValidasiBerkas {
@@ -23,10 +24,15 @@ export interface HasilValidasiBerkas {
  */
 export function validasiBerkasUpload(
   file: { name: string; size: number; type: string },
-  kategori: 'gambar' | 'dokumen'
+  kategori: 'gambar' | 'dokumen' | 'dokumentasi'
 ): HasilValidasiBerkas {
-  const maxUkuran = kategori === 'gambar' ? MAX_UKURAN_GAMBAR : MAX_UKURAN_DOKUMEN
-  const mimeDiizinkan = kategori === 'gambar' ? MIME_GAMBAR_VALID : MIME_DOKUMEN_VALID
+  const maxUkuran =
+    kategori === 'gambar'
+      ? MAX_UKURAN_GAMBAR
+      : kategori === 'dokumentasi'
+      ? MAX_UKURAN_DOKUMENTASI
+      : MAX_UKURAN_DOKUMEN
+  const mimeDiizinkan = kategori === 'dokumen' ? MIME_DOKUMEN_VALID : MIME_GAMBAR_VALID
 
   // 1. Cek ukuran
   if (file.size <= 0) {
@@ -49,9 +55,9 @@ export function validasiBerkasUpload(
   // 3. Cek ekstensi aman
   const ekstensi = file.name.split('.').pop()?.toLowerCase() || ''
   const ekstensiAman =
-    kategori === 'gambar'
-      ? ['jpg', 'jpeg', 'png', 'webp']
-      : ['pdf', 'jpg', 'jpeg', 'png']
+    kategori === 'dokumen'
+      ? ['pdf', 'jpg', 'jpeg', 'png']
+      : ['jpg', 'jpeg', 'png', 'webp']
 
   if (!ekstensiAman.includes(ekstensi)) {
     return {

@@ -7,10 +7,9 @@ import {
   MapPin,
   Mail,
   Phone,
-  XCircle,
 } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { verifikasiAction } from '@/app/admin/actions'
+import { TombolAksiVerifikasi } from './TombolAksiVerifikasi'
 
 export const metadata: Metadata = {
   title: 'Verifikasi Lembaga & NSPP | Admin MOCHI',
@@ -159,41 +158,8 @@ export default async function AdminVerifikasiPage() {
                 )}
               </div>
 
-              {/* Form Aksi Verifikasi */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2">
-                {/* Form Setujui */}
-                <form action={verifikasiAction} className="w-full sm:w-auto">
-                  <input type="hidden" name="lembaga_id" value={item.id} />
-                  <input type="hidden" name="status" value="terverifikasi" />
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-800 transition-all"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                    <span>Setujui Lembaga</span>
-                  </button>
-                </form>
-
-                {/* Form Tolak */}
-                <form action={verifikasiAction} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-                  <input type="hidden" name="lembaga_id" value={item.id} />
-                  <input type="hidden" name="status" value="ditolak" />
-                  <input
-                    type="text"
-                    name="alasan"
-                    required
-                    placeholder="Alasan penolakan..."
-                    className="flex-1 rounded-xl border border-stone-300 px-3 py-1.5 text-xs text-stone-800 placeholder:text-stone-400 focus:outline-hidden"
-                  />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center justify-center gap-1 rounded-xl bg-rose-700 px-3.5 py-2 text-xs font-bold text-white hover:bg-rose-800 transition-all"
-                  >
-                    <XCircle className="h-4 w-4" />
-                    <span>Tolak</span>
-                  </button>
-                </form>
-              </div>
+              {/* Form Aksi Verifikasi dengan Loading & Feedback */}
+              <TombolAksiVerifikasi lembagaId={item.id} />
             </div>
           ))}
         </div>

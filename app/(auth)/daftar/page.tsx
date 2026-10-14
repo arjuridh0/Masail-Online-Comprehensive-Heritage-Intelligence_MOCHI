@@ -316,41 +316,55 @@ export default function DaftarPage() {
 
               {langkah === 2 && (
                 <>
-                  <label
-                    htmlFor="dokumen_bukti"
-                    className="flex cursor-pointer flex-col items-center rounded-2xl border-2 border-dashed border-[#C8C4BB] bg-white px-6 py-8 text-center transition-colors hover:border-[#1E3F30]"
-                  >
-                    {berkasNama ? (
-                      <FileCheck2 className="h-8 w-8 text-emerald-600" />
-                    ) : (
-                      <Upload className="h-8 w-8 text-stone-400" />
-                    )}
-                    <span className="mt-3 text-sm font-medium text-stone-900">
-                      {berkasNama || (isPesantren ? "Unggah Dokumen Bukti / Piagam Kemenag (Opsional)" : "Unggah SK Kepengurusan Resmi (Wajib) *")}
-                    </span>
-                    <span className="mt-1 text-xs text-stone-400">
-                      {isPesantren
-                        ? "Piagam NSPP / SK izin operasional Kemenag (PDF, JPG, PNG maks 10 MB)"
-                        : "Surat Keputusan (SK) Kepengurusan PCNU/PWNU (PDF, JPG, PNG maks 10 MB)"}
-                    </span>
-                    <input
-                      id="dokumen_bukti"
-                      name="dokumen_bukti"
-                      type="file"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      onChange={(e) => setBerkasNama(e.target.files?.[0]?.name || "")}
-                      className="sr-only"
-                    />
-                  </label>
+                  {isPesantren ? (
+                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 text-xs text-emerald-900 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <FileCheck2 className="h-5 w-5 text-emerald-700 shrink-0" />
+                        <span className="font-bold text-sm text-[#1E3F30]">
+                          Verifikasi Berbasis NSPP Kemenag
+                        </span>
+                      </div>
+                      <p className="text-emerald-800 leading-relaxed">
+                        Sebagai Pondok Pesantren, keabsahan lembaga Anda diverifikasi langsung melalui <strong>12 digit Nomor Statistik Pesantren (NSPP: {nspp || '-'})</strong> yang terdaftar di pangkalan data EMIS Kemenag RI. Anda <strong>tidak perlu mengunggah dokumen fisik / SK</strong>.
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="dokumen_bukti"
+                        className="flex cursor-pointer flex-col items-center rounded-2xl border-2 border-dashed border-[#C8C4BB] bg-white px-6 py-8 text-center transition-colors hover:border-[#1E3F30]"
+                      >
+                        {berkasNama ? (
+                          <FileCheck2 className="h-8 w-8 text-emerald-600" />
+                        ) : (
+                          <Upload className="h-8 w-8 text-stone-400" />
+                        )}
+                        <span className="mt-3 text-sm font-medium text-stone-900">
+                          {berkasNama || "Unggah SK Kepengurusan Resmi (Wajib) *"}
+                        </span>
+                        <span className="mt-1 text-xs text-stone-400">
+                          Surat Keputusan (SK) Kepengurusan PCNU / PWNU / Asosiasi (PDF, JPG, PNG maks 10 MB)
+                        </span>
+                        <input
+                          id="dokumen_bukti"
+                          name="dokumen_bukti"
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => setBerkasNama(e.target.files?.[0]?.name || "")}
+                          className="sr-only"
+                        />
+                      </label>
 
-                  <p className="text-[11px] text-stone-500 italic text-center">
-                    * Demi efisiensi dan keamanan data, berkas SK kepengurusan akan otomatis dihapus dari penyimpanan setelah proses verifikasi oleh Admin Pusat selesai.
-                  </p>
+                      <p className="text-[11px] text-stone-500 italic text-center">
+                        * Demi efisiensi dan keamanan data, berkas SK kepengurusan akan otomatis dihapus dari penyimpanan setelah verifikasi selesai.
+                      </p>
+                    </>
+                  )}
 
                   <div className="rounded-2xl bg-stone-100/70 p-4 text-xs text-stone-600 space-y-1">
                     <p className="font-semibold text-stone-900">Ringkasan Calon Mitra:</p>
                     <p>Lembaga: {namaLembaga || "-"}</p>
-                    <p>Wilayah: {kota}, {provinsi} {isPesantren && nspp ? `• NSPP: ${nspp}` : "• Non-Pesantren"}</p>
+                    <p>Wilayah: {kota}, {provinsi} {isPesantren && nspp ? `• NSPP: ${nspp}` : "• Verifikasi SK Kepengurusan"}</p>
                     <p>Pengelola: {namaPj || "-"} ({email || "-"})</p>
                   </div>
                 </>

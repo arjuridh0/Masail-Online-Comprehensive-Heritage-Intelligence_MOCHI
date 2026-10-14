@@ -103,16 +103,27 @@ export async function cariKonteksSemantik(
         skor: 0.72,
       }))
 
+      interface PertanyaanFallbackRow {
+        label?: string
+        teks: string
+        jawaban: string
+        rujukan?: Array<{
+          kitab_teks?: string
+          teks_arab?: string
+          terjemah?: string
+          juz?: string
+          halaman?: string
+        }>
+      }
+
       const contextParts: string[] = []
       fallbackSources.forEach((src) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const rawPertanyaan = (detailMap.get(src.masalahId) as any[]) || []
+        const rawPertanyaan = (detailMap.get(src.masalahId) as PertanyaanFallbackRow[] | undefined) || []
         const kontenAsilah = rawPertanyaan
           .map((p) => {
             const ibaratList = (p.rujukan || [])
               .map(
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (r: any) =>
+                (r) =>
                   `Kitab: ${r.kitab_teks || 'Turats'}${r.juz ? `, Juz ${r.juz}` : ''}${r.halaman ? `, Hal ${r.halaman}` : ''}\nArab: ${r.teks_arab || '-'}\nTerjemah: ${r.terjemah || '-'}`
               )
               .join('\n\n')
@@ -171,10 +182,15 @@ ${kontenAsilah || src.ringkasan}`)
     lembagaNama: string
   }>()
 
+  interface ForumJoinRow {
+    nama?: string | null
+    tuan_rumah?: string | null
+    lembaga?: { nama?: string | null } | null
+  }
+
   if (daftarMasalah) {
     for (const dm of daftarMasalah) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const f = dm.forum as any
+      const f = dm.forum as unknown as ForumJoinRow | null
       masalahMap.set(dm.id, {
         kode: dm.kode,
         slug: dm.slug,

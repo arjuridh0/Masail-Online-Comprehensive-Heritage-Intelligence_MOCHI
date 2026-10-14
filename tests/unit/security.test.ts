@@ -43,6 +43,28 @@ describe('Fase 10 — Pengerasan Keamanan & Validasi Input', () => {
       expect(res.error).toContain('melebihi batas maksimal 10 MB')
     })
 
+    it('menerima foto dokumentasi forum <= 5 MB dan menolak > 5 MB', () => {
+      const ok = validasiBerkasUpload(
+        { name: 'suasana_sidang_lbm.jpg', size: 4.5 * 1024 * 1024, type: 'image/jpeg' },
+        'dokumentasi'
+      )
+      expect(ok.valid).toBe(true)
+      expect(ok.namaAman).toMatch(/^dokumentasi_\d+_[a-z0-9]+\.jpg$/)
+
+      const terlaluBesar = validasiBerkasUpload(
+        { name: 'sidang_hd.png', size: 5.5 * 1024 * 1024, type: 'image/png' },
+        'dokumentasi'
+      )
+      expect(terlaluBesar.valid).toBe(false)
+      expect(terlaluBesar.error).toContain('melebihi batas maksimal 5 MB')
+
+      const bukanGambar = validasiBerkasUpload(
+        { name: 'catatan.pdf', size: 1024 * 500, type: 'application/pdf' },
+        'dokumentasi'
+      )
+      expect(bukanGambar.valid).toBe(false)
+    })
+
     it('menolak skrip berbahaya (.html, .svg berskrip, .php, .exe, .sh)', () => {
       const bahaya1 = validasiBerkasUpload(
         { name: 'exploit.html', size: 1024, type: 'text/html' },

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { BintangDelapan, BintangLatar } from "./Ornamen";
 import { Muncul } from "./Gerak";
+import { MochiWordmark } from "@/components/brand/MochiWordmark";
 
 export function Bidang({
   label,
@@ -87,7 +88,7 @@ export default function KerangkaAkun({
               className="object-contain"
             />
           </div>
-          <span className="font-semibold tracking-tight text-white">MOCHI</span>
+          <MochiWordmark className="h-5 w-auto text-white" fillPrimary="#FFFFFF" fillAccent="#E5CE98" />
         </Link>
         <div className="relative">
           <BintangDelapan className="mb-5 h-7 w-7 text-[#C9A96E]" />

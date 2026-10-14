@@ -51,7 +51,7 @@ export const wizardForumSchema = infoForumInputSchema.extend({
   id: z.string().optional(),
   status: z.enum(['draf', 'terbit']).default('draf'),
   masalah: z.array(masalahInputSchema).min(1, 'Forum wajib memiliki minimal 1 masalah masail'),
-  dokumentasi: z.array(z.string().url('URL dokumentasi tidak valid')).default([]),
+  dokumentasi: z.array(z.string().url('URL dokumentasi tidak valid')).max(6, 'Maksimal 6 foto dokumentasi forum').default([]),
 })
 
 export type RujukanInput = z.infer<typeof rujukanInputSchema>

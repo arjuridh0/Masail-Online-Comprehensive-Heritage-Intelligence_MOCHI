@@ -8,27 +8,36 @@ import { profilLembagaSchema } from '@/lib/validation/auth'
 import { validasiBerkasUpload } from '@/lib/validation/upload'
 import { randomUUID } from 'crypto'
 
-export async function updateProfilLembagaAction(formData: FormData): Promise<void> {
+export async function updateProfilLembagaAction(
+  prevState: unknown,
+  formData: FormData
+): Promise<{ success?: boolean; error?: string; message?: string }> {
   const sesi = await getSesiPengguna()
   if (!sesi || !sesi.lembaga) {
-    return
+    return { error: 'Sesi tidak ditemukan. Silakan masuk kembali.' }
+  }
+
+  let rawSitus = (formData.get('situs_web') as string)?.trim() || ''
+  if (rawSitus && !/^https?:\/\//i.test(rawSitus)) {
+    rawSitus = `https://${rawSitus}`
   }
 
   const raw = {
-    nama_penanggung_jawab: (formData.get('nama_penanggung_jawab') as string) || undefined,
-    deskripsi: formData.get('deskripsi') as string,
-    alamat: formData.get('alamat') as string,
-    kota: formData.get('kota') as string,
-    provinsi: formData.get('provinsi') as string,
-    kontak_telepon: formData.get('kontak_telepon') as string,
-    kontak_email: formData.get('kontak_email') as string,
-    situs_web: formData.get('situs_web') as string,
-    logo_url: (formData.get('logo_url') as string) || '',
+    nama_penanggung_jawab: (formData.get('nama_penanggung_jawab') as string)?.trim() || undefined,
+    deskripsi: (formData.get('deskripsi') as string)?.trim() || '',
+    alamat: (formData.get('alamat') as string)?.trim() || '',
+    kota: (formData.get('kota') as string)?.trim() || '',
+    provinsi: (formData.get('provinsi') as string)?.trim() || '',
+    kontak_telepon: (formData.get('kontak_telepon') as string)?.trim() || '',
+    kontak_email: (formData.get('kontak_email') as string)?.trim() || '',
+    situs_web: rawSitus,
+    logo_url: (formData.get('logo_url') as string)?.trim() || '',
   }
 
   const parsed = profilLembagaSchema.safeParse(raw)
   if (!parsed.success) {
-    return
+    const pesan = parsed.error.issues[0]?.message || 'Data profil tidak valid. Periksa kembali isian Anda.'
+    return { error: pesan }
   }
 
   const data = parsed.data
@@ -78,7 +87,7 @@ export async function updateProfilLembagaAction(formData: FormData): Promise<voi
 
   if (updateError) {
     console.error('Error update profil lembaga:', updateError)
-    return
+    return { error: 'Gagal menyimpan profil. Coba lagi dalam beberapa saat.' }
   }
 
   // 3. Update nama penanggung jawab di tabel profil
@@ -102,6 +111,8 @@ export async function updateProfilLembagaAction(formData: FormData): Promise<voi
   revalidatePath('/dasbor')
   revalidatePath(`/lembaga/${sesi.lembaga.slug}`)
   revalidatePath('/lembaga')
+
+  return { success: true, message: 'Profil lembaga berhasil diperbarui.' }
 }
 
 export async function ubahKataSandiLembagaAction(prevState: unknown, formData: FormData) {
@@ -138,4 +149,44 @@ export async function ubahKataSandiLembagaAction(prevState: unknown, formData: F
   })
 
   return { success: true, message: 'Kata sandi akun pengelola berhasil diubah.' }
+}
+
+export async function uploadFotoDokumentasiAction(formData: FormData): Promise<{
+  success?: boolean
+  url?: string
+  error?: string
+}> {
+  const sesi = await getSesiPengguna()
+  if (!sesi || !sesi.lembaga) {
+    return { error: 'Sesi pengelola lembaga tidak ditemukan.' }
+  }
+
+  const file = formData.get('file') as File | null
+  if (!file || file.size === 0) {
+    return { error: 'Berkas foto tidak ditemukan.' }
+  }
+
+  const validasi = validasiBerkasUpload(file, 'dokumentasi')
+  if (!validasi.valid) {
+    return { error: validasi.error || 'Berkas foto tidak valid.' }
+  }
+
+  const adminDb = createAdminClient()
+  const fileName = validasi.namaAman || `dok_${Date.now()}_${randomUUID().slice(0, 8)}.jpg`
+  const buffer = Buffer.from(await file.arrayBuffer())
+
+  const { error: uploadError } = await adminDb.storage
+    .from('dokumentasi')
+    .upload(fileName, buffer, {
+      contentType: file.type || 'image/jpeg',
+      upsert: true,
+    })
+
+  if (uploadError) {
+    console.error('Error upload dokumentasi:', uploadError)
+    return { error: 'Gagal mengunggah foto ke penyimpanan.' }
+  }
+
+  const { data: pubUrl } = adminDb.storage.from('dokumentasi').getPublicUrl(fileName)
+  return { success: true, url: pubUrl?.publicUrl }
 }

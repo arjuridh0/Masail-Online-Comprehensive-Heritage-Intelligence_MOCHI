@@ -4,11 +4,15 @@ import { revalidatePath } from 'next/cache'
 import { getSesiPengguna } from '@/lib/auth/session'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { verifikasiSchema, kitabSchema } from '@/lib/validation/auth'
+import { kirimEmailNotifikasi } from '@/lib/email'
+import { templateLembagaDisetujui, templateLembagaDitolak } from '@/lib/email/templates'
 
-export async function verifikasiAction(formData: FormData): Promise<void> {
+export async function verifikasiAction(
+  formData: FormData
+): Promise<{ success?: boolean; error?: string; message?: string }> {
   const sesi = await getSesiPengguna()
   if (!sesi || sesi.peran !== 'admin') {
-    return
+    return { error: 'Akses ditolak. Hanya admin pusat yang diizinkan.' }
   }
 
   const raw = {
@@ -19,16 +23,17 @@ export async function verifikasiAction(formData: FormData): Promise<void> {
 
   const parsed = verifikasiSchema.safeParse(raw)
   if (!parsed.success) {
-    return
+    const msg = parsed.error.issues[0]?.message || 'Data verifikasi tidak valid.'
+    return { error: msg }
   }
 
   const { lembaga_id, status, alasan } = parsed.data
   const adminDb = createAdminClient()
 
-  // 1. Ambil dokumen bukti untuk auto-delete dari storage demi hemat ruang & privasi
+  // 1. Ambil nama & email lembaga serta berkas SK untuk auto-cleanup
   const { data: dataLembaga } = await adminDb
     .from('lembaga')
-    .select('dokumen_bukti_url')
+    .select('nama, kontak_email, dokumen_bukti_url')
     .eq('id', lembaga_id)
     .single()
 
@@ -62,7 +67,34 @@ export async function verifikasiAction(formData: FormData): Promise<void> {
 
   if (updateError) {
     console.error('Error verifikasi lembaga:', updateError)
-    return
+    return { error: 'Gagal memperbarui status lembaga di database.' }
+  }
+
+  // 2. Kirim email notifikasi ke pengelola lembaga
+  if (dataLembaga?.kontak_email) {
+    const namaLembaga = dataLembaga.nama || 'Lembaga Mitra'
+    if (status === 'terverifikasi') {
+      const tpl = templateLembagaDisetujui({
+        namaLembaga,
+        namaPj: 'Pengelola Lembaga',
+      })
+      kirimEmailNotifikasi({
+        to: dataLembaga.kontak_email,
+        subject: tpl.subject,
+        html: tpl.html,
+      }).catch((e) => console.error('Gagal kirim email approval:', e))
+    } else if (status === 'ditolak') {
+      const tpl = templateLembagaDitolak({
+        namaLembaga,
+        namaPj: 'Pengelola Lembaga',
+        alasan: alasan || 'Dokumen belum memenuhi kriteria keabsahan',
+      })
+      kirimEmailNotifikasi({
+        to: dataLembaga.kontak_email,
+        subject: tpl.subject,
+        html: tpl.html,
+      }).catch((e) => console.error('Gagal kirim email rejection:', e))
+    }
   }
 
   // Audit log
@@ -77,6 +109,14 @@ export async function verifikasiAction(formData: FormData): Promise<void> {
   revalidatePath('/admin/verifikasi')
   revalidatePath('/admin/lembaga')
   revalidatePath('/lembaga')
+
+  return {
+    success: true,
+    message:
+      status === 'terverifikasi'
+        ? 'Lembaga berhasil diverifikasi dan hak penerbitan aktif.'
+        : 'Permohonan lembaga berhasil ditolak dan catatan telah dikirim.',
+  }
 }
 
 export async function tangguhkanLembagaAction(formData: FormData): Promise<void> {

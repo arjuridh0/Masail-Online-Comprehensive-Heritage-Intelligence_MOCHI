@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
+import { MochiWordmark } from "@/components/brand/MochiWordmark";
 
 export default function FooterBergelombang() {
   return (
@@ -45,13 +46,12 @@ export default function FooterBergelombang() {
                   className="h-9 w-9 object-contain"
                 />
               </span>
-              <div>
-                <span className="text-lg font-extrabold tracking-tight text-white">
-                  MOCHI
-                </span>
-                <span className="ml-2 rounded-xs bg-[#C9A96E]/20 border border-[#C9A96E]/40 px-1.5 py-0.5 text-[9px] font-bold text-[#DFC48E] uppercase tracking-wider">
-                  Pesantren
-                </span>
+              <div className="flex flex-col">
+                <MochiWordmark
+                  className="h-5 w-auto text-white"
+                  fillPrimary="#FFFFFF"
+                  fillAccent="#DFC48E"
+                />
               </div>
             </div>
 

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { MochiWordmark } from "@/components/brand/MochiWordmark";
 import {
   ArrowUpRight,
   Menu,
@@ -148,15 +149,12 @@ export default function Navbar({ sesi }: { sesi?: RingkasanSesiNavbar | null }) 
             />
           </span>
           <div className="flex flex-col">
-            <div className="flex items-center gap-1.5 leading-none">
-              <span className="text-[16px] font-extrabold tracking-tight text-stone-900">
-                MOCHI
-              </span>
-              <span className="rounded-xs bg-[#1E3F30]/10 px-1.5 py-0.5 text-[9px] font-bold text-[#1E3F30] uppercase tracking-wider">
-                Pesantren
-              </span>
-            </div>
-            <span className="mt-0.5 text-[10px] font-medium text-stone-500 tracking-tight leading-none">
+            <MochiWordmark
+              className="h-4.5 w-auto text-[#1E3F30]"
+              fillPrimary="#1E3F30"
+              fillAccent="#C9A96E"
+            />
+            <span className="mt-1 text-[9.5px] font-medium text-stone-500 tracking-tight leading-none">
               Repositori Bahtsul Masail
             </span>
           </div>
