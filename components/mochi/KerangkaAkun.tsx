@@ -79,12 +79,12 @@ export default function KerangkaAkun({
       <aside className="relative hidden overflow-hidden rounded-[32px] bg-[#1E3F30] p-10 text-white lg:sticky lg:top-24 lg:flex lg:h-[560px] lg:flex-col lg:justify-between lg:self-start shadow-xl">
         <BintangLatar className="putar-pelan pointer-events-none absolute -right-24 -top-24 w-[520px] text-[#C9A96E] opacity-30" />
         <Link href="/" className="relative flex items-center gap-2.5">
-          <div className="relative h-9 w-9 overflow-hidden rounded-full ring-1 ring-white/20">
+          <div className="relative h-9 w-9 shrink-0">
             <Image
-              src="/mascot/mochi-3d.png"
+              src="/brand/mochi-symbol-white.svg"
               alt="MOCHI"
               fill
-              className="object-cover"
+              className="object-contain"
             />
           </div>
           <span className="font-semibold tracking-tight text-white">MOCHI</span>

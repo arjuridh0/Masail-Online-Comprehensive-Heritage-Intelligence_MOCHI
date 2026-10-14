@@ -36,19 +36,20 @@ export default function FooterBergelombang() {
           {/* Kolom 1: Brand & Visi (5 Kolom) */}
           <div className="md:col-span-5 space-y-3.5">
             <div className="flex items-center gap-2.5">
-              <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-2 ring-[#C9A96E]/40 bg-white/10">
+              <span className="relative h-9 w-9 shrink-0">
                 <Image
-                  src="/mascot/mochi-3d.png"
-                  alt="MOCHI"
-                  fill
-                  className="object-cover"
+                  src="/brand/mochi-symbol-white.svg"
+                  alt="Logo Resmi MOCHI"
+                  width={36}
+                  height={36}
+                  className="h-9 w-9 object-contain"
                 />
               </span>
               <div>
                 <span className="text-lg font-extrabold tracking-tight text-white">
                   MOCHI
                 </span>
-                <span className="ml-2 rounded-xs bg-[#C9A96E]/20 border border-[#C9A96E]/40 px-1.5 py-0.2 text-[9px] font-bold text-[#DFC48E] uppercase tracking-wider">
+                <span className="ml-2 rounded-xs bg-[#C9A96E]/20 border border-[#C9A96E]/40 px-1.5 py-0.5 text-[9px] font-bold text-[#DFC48E] uppercase tracking-wider">
                   Pesantren
                 </span>
               </div>

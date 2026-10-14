@@ -121,7 +121,7 @@ const jsonLdSchema = {
       "@id": `${siteUrl}/#organization`,
       name: "MOCHI — Khazanah Bahtsul Masail Pesantren",
       url: siteUrl,
-      logo: `${siteUrl}/mascot/mochi-2d.png`,
+      logo: `${siteUrl}/brand/mochi-symbol-512.png`,
     },
   ],
 };

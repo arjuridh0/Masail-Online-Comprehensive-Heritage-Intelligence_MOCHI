@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="540" height="120" role="img" aria-label="Logo MOCHI Pesantren (White)">
+  <title>MOCHI Pesantren - Repositori Bahtsul Masail</title>
+
+  <!-- Simbol Putih di Kiri -->
+  <g transform="translate(12, 12) scale(0.375)">
+    <rect x="40" y="40" width="176" height="176" rx="28" fill="#FFFFFF" />
+    <rect x="40" y="40" width="176" height="176" rx="28" fill="#FFFFFF" transform="rotate(45 128 128)" />
+    <circle cx="128" cy="128" r="84" stroke="#1E3F30" stroke-width="3" fill="none" />
+    <circle cx="128" cy="128" r="54" fill="#FFFFFF" stroke="#1E3F30" stroke-width="3" />
+    <path d="M 125 146 C 111 137, 95 137, 84 144 L 84 116 C 95 110, 111 110, 125 118 Z" fill="#1E3F30" />
+    <path d="M 131 146 C 145 137, 161 137, 172 144 L 172 116 C 161 110, 145 110, 131 118 Z" fill="#1E3F30" />
+    <circle cx="128" cy="101" r="4" fill="#1E3F30" />
+  </g>
+
+  <!-- Wordmark & Subtitle Putih & Emas -->
+  <g transform="translate(126, 20)">
+    <text x="0" y="44" font-family="system-ui, -apple-system, 'Inter', sans-serif" font-size="44" font-weight="900" letter-spacing="-1.2" fill="#FFFFFF">MOCHI</text>
+    <rect x="178" y="14" width="88" height="25" rx="5" fill="#C9A96E" fill-opacity="0.25" stroke="#C9A96E" stroke-opacity="0.5" stroke-width="1" />
+    <text x="222" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="800" letter-spacing="1.2" fill="#DFC48E" text-anchor="middle">PESANTREN</text>
+    <text x="2" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" letter-spacing="-0.2" fill="#E2ECE6">Repositori Keputusan Bahtsul Masail</text>
+    <text x="2" y="86" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500" letter-spacing="0.1" fill="rgba(255,255,255,0.65)">Masail Online &amp; Comprehensive Heritage Intelligence</text>
+  </g>
+</svg>

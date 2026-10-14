@@ -109,7 +109,7 @@ export function NavigasiMobileDasbor({
       <div className="flex items-center gap-2">
         <div className="relative h-7 w-7 shrink-0">
           <Image
-            src="/mascot/mochi-3d.png"
+            src="/brand/mochi-symbol.svg"
             alt="MOCHI"
             fill
             className="object-contain"
@@ -154,7 +154,7 @@ export function NavigasiMobileDasbor({
                   <div className="flex items-center gap-2.5">
                     <div className="relative h-8 w-8 shrink-0">
                       <Image
-                        src="/mascot/mochi-3d.png"
+                        src="/brand/mochi-symbol.svg"
                         alt="MOCHI"
                         fill
                         className="object-contain"

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="mochi-symbol-title">
+  <title id="mochi-symbol-title">MOCHI - Khatam Musyawarah</title>
+  <defs>
+    <linearGradient id="primaryGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D5A46" />
+      <stop offset="50%" stop-color="#1E3F30" />
+      <stop offset="100%" stop-color="#12241B" />
+    </linearGradient>
+    <linearGradient id="goldGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5CE98" />
+      <stop offset="50%" stop-color="#C9A96E" />
+      <stop offset="100%" stop-color="#A88344" />
+    </linearGradient>
+  </defs>
+  <g id="symbol-b-polished">
+    <!-- 1. Bintang 8-Penjuru Luar (The Khatam Star: 2 Rounded Squares at 0 & 45 deg) -->
+    <rect x="40" y="40" width="176" height="176" rx="28" fill="url(#primaryGradB)" />
+    <rect x="40" y="40" width="176" height="176" rx="28" fill="url(#primaryGradB)" transform="rotate(45 128 128)" />
+
+    <!-- 2. Cincin Emas Keilmuan & Sanad (Golden Ring of Continuity) -->
+    <circle cx="128" cy="128" r="84" stroke="url(#goldGradB)" stroke-width="3" fill="none" opacity="0.85" />
+
+    <!-- 3. Delapan Pancaran Cahaya Musyawarah (8 Rays of Fiqh Wisdom) -->
+    <g transform="translate(198.00, 128.00) rotate(90)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(177.50, 177.50) rotate(135)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(128.00, 198.00) rotate(180)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(78.50, 177.50) rotate(225)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(58.00, 128.00) rotate(270)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(78.50, 78.50) rotate(315)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(128.00, 58.00) rotate(360)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+    <g transform="translate(177.50, 78.50) rotate(405)">
+      <polygon points="0,-10 5,0 0,10 -5,0" fill="url(#goldGradB)" />
+    </g>
+
+    <!-- 4. Piringan Halaqah Tengah (The Inner Assembly) -->
+    <circle cx="128" cy="128" r="54" fill="#142A1F" stroke="url(#goldGradB)" stroke-width="3.5" />
+
+    <!-- 5. Lembaran Kitab Turats Terbuka (Open Codex of Masail) -->
+    <!-- Sayap Kiri -->
+    <path d="M 125 146 C 111 137, 95 137, 84 144 L 84 116 C 95 110, 111 110, 125 118 Z"
+          fill="#FAF5E8" />
+    <!-- Sayap Kanan -->
+    <path d="M 131 146 C 145 137, 161 137, 172 144 L 172 116 C 161 110, 145 110, 131 118 Z"
+          fill="#FAF5E8" />
+
+    <!-- Tulang Punggung Kitab (Spine of Truth) -->
+    <line x1="128" y1="114" x2="128" y2="148" stroke="url(#goldGradB)" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Titik Cahaya Sanad di Atas Kitab (The Guiding Node) -->
+    <circle cx="128" cy="101" r="3.8" fill="url(#goldGradB)" />
+  </g>
+</svg>

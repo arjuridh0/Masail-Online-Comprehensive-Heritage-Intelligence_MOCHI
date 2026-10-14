@@ -55,7 +55,7 @@ export default async function AdminLayout({
           <div className="p-5 border-b border-stone-100 flex items-center gap-3">
             <div className="relative h-9 w-9">
               <Image
-                src="/mascot/mochi-3d.png"
+                src="/brand/mochi-symbol.svg"
                 alt="MOCHI"
                 fill
                 className="object-contain"

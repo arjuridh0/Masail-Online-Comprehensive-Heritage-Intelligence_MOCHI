@@ -52,6 +52,7 @@ supabase/backup/
 # Dokumen Lomba & Internal
 /docs/
 *.pdf
+*.docx
 task.md
 AGENTS.md
 
@@ -62,4 +63,9 @@ supabase/seed/
 # Scratch & Logs
 scratch/
 *.log
+
+# Tangkapan Layar & Uji Visual E2E
+/public/screenshots/
+tests/e2e/screenshot.spec.ts
+
 

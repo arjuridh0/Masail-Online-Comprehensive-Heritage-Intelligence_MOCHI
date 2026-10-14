@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { DetailMasalahClient } from '@/components/masalah/DetailMasalahClient'
@@ -53,9 +53,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: 'MOCHI - Masail Online & Comprehensive Heritage Intelligence',
       images: [
         {
-          url: '/mascot/mochi-3d.png',
-          width: 800,
-          height: 800,
+          url: '/brand/mochi-symbol-512.png',
+          width: 512,
+          height: 512,
           alt: `Keputusan Bahtsul Masail: ${masalah.judul}`,
         },
       ],

@@ -137,12 +137,13 @@ export default function Navbar({ sesi }: { sesi?: RingkasanSesiNavbar | null }) 
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
         {/* Brand Logo Resmi dengan Subteks Penjelas */}
         <Link href="/" className="group flex items-center gap-2.5 shrink-0" data-testid="logo-mochi">
-          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-[#E5E3DC] transition-transform duration-500 group-hover:rotate-[-8deg]">
+          <span className="relative h-9 w-9 shrink-0 transition-transform duration-300 group-hover:scale-105">
             <Image
-              src="/mascot/mochi-3d.png"
-              alt="Maskot MOCHI"
-              fill
-              className="object-cover"
+              src="/brand/mochi-symbol.svg"
+              alt="Logo Resmi MOCHI"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain"
               priority
             />
           </span>
@@ -151,7 +152,7 @@ export default function Navbar({ sesi }: { sesi?: RingkasanSesiNavbar | null }) 
               <span className="text-[16px] font-extrabold tracking-tight text-stone-900">
                 MOCHI
               </span>
-              <span className="rounded-sm bg-[#1E3F30]/10 px-1 py-0.2 text-[9px] font-bold text-[#1E3F30] uppercase">
+              <span className="rounded-xs bg-[#1E3F30]/10 px-1.5 py-0.5 text-[9px] font-bold text-[#1E3F30] uppercase tracking-wider">
                 Pesantren
               </span>
             </div>
