@@ -405,7 +405,7 @@ export default function KapsulPencarian({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="absolute left-0 right-0 top-full z-40 mt-3 overflow-hidden rounded-2xl border border-[#E5E3DC] bg-white p-2.5 shadow-[0_24px_56px_rgba(30,63,48,0.16)] ring-1 ring-black/5"
+            className="absolute left-0 right-0 top-full z-50 mt-3 overflow-hidden rounded-2xl border border-[#E5E3DC] bg-white p-2.5 shadow-[0_24px_56px_rgba(30,63,48,0.16)] ring-1 ring-black/5"
           >
             {/* Header Kategori Saran */}
             <div className="flex items-center justify-between px-3 py-1.5 text-[11px] font-bold tracking-wider text-stone-400 uppercase">

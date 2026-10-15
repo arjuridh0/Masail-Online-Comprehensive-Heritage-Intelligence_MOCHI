@@ -193,7 +193,7 @@ export default async function HomePage() {
       {/* Main Content */}
       <main id="main-content" className="flex-1 w-full overflow-x-hidden">
         {/* HERO SECTION DENGAN ORNAMEN LATAR BERPUTAR & KAPSUL PENCARIAN */}
-        <section className="relative overflow-hidden px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:pt-16 lg:pb-10">
+        <section className="relative z-20 px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:pt-16 lg:pb-10">
           {/* Kontainer Ornamen Latar Dibatasi Overflow Hidden agar Bintang Berputar Tidak Memicu Horizontal Scroll */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
             {/* Pola Girih Islami Halus */}

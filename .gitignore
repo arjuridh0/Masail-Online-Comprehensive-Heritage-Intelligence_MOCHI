@@ -68,4 +68,8 @@ scratch/
 /public/screenshots/
 tests/e2e/screenshot.spec.ts
 
+# Project Video & Non-sistem
+mochi-video/
+*.mp4
+
 
