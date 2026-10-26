@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
   AlertTriangle,
@@ -43,8 +43,9 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
     .order('dibuat_pada', { ascending: false })
 
   if (status !== 'semua') {
+    const filterStatus = status === 'menunggu' ? 'baru' : status
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    query = query.eq('status', status as any)
+    query = query.eq('status', filterStatus as any)
   }
 
   const { data: daftarLaporan } = await query
@@ -65,12 +66,12 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
         <div className="flex items-center gap-1.5 flex-wrap">
           {[
             { id: 'semua', label: 'Semua' },
-            { id: 'menunggu', label: 'Menunggu' },
+            { id: 'baru', label: 'Baru / Menunggu' },
             { id: 'diproses', label: 'Diproses' },
             { id: 'selesai', label: 'Selesai' },
             { id: 'ditolak', label: 'Ditolak' },
           ].map((tab) => {
-            const isSelected = status === tab.id
+            const isSelected = status === tab.id || (tab.id === 'baru' && status === 'menunggu')
             return (
               <Link
                 key={tab.id}
@@ -121,7 +122,7 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
                   <div className="flex items-center gap-2">
                     <span
                       className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                        lap.status === 'menunggu'
+                        lap.status === 'baru' || lap.status === 'menunggu'
                           ? 'bg-amber-100 text-amber-800 border border-amber-300'
                           : lap.status === 'diproses'
                           ? 'bg-blue-100 text-blue-800 border border-blue-300'
@@ -130,7 +131,7 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
                           : 'bg-stone-200 text-stone-700'
                       }`}
                     >
-                      {lap.status === 'menunggu' && <Clock className="h-3 w-3" />}
+                      {(lap.status === 'baru' || lap.status === 'menunggu') && <Clock className="h-3 w-3" />}
                       {lap.status === 'diproses' && <AlertTriangle className="h-3 w-3" />}
                       {lap.status === 'selesai' && <CheckCircle2 className="h-3 w-3" />}
                       {lap.status === 'ditolak' && <XCircle className="h-3 w-3" />}
