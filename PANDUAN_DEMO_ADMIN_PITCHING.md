@@ -1,4 +1,4 @@
-# 🎙️ Panduan Presentasi Demo Admin MOCHI
+# 🎙️ Panduan Presentasi Demo Admin MOCHI (Dengan Bukti Screenshot Asli)
 ### Khusus Presenter Sesi Demo Fitur Administrasi & Tata Kelola
 **Lomba Santrivision 2026 — Ditjen Pendidikan Diniyah & Pondok Pesantren Kemenag RI**
 
@@ -63,7 +63,7 @@ graph TD
 **URL Uji:** `https://mochi-six-ochre.vercel.app/masuk`  
 **Kredensial:** Ada di berkas [`docs/AKUN_DEMO.md`](file:///d:/LOMBA2/SANTRIVISION/docs/AKUN_DEMO.md)
 
-![Halaman Masuk MOCHI](public/demo_screenshots/demo_01_masuk.png)
+![Halaman Masuk MOCHI](demo_screenshots/demo_01_masuk.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Single Entry Point:** Gerbang masuk tunggal untuk seluruh peran (baik pesantren maupun admin kementerian).
@@ -84,8 +84,8 @@ graph TD
 
 **URL Uji:** `https://mochi-six-ochre.vercel.app/daftar`
 
-![Pendaftaran Pesantren dengan NSPP](public/demo_screenshots/demo_02_daftar_pesantren.png)
-![Pendaftaran Lembaga LBM NU dengan SK](public/demo_screenshots/demo_02b_daftar_organisasi.png)
+![Pendaftaran Pesantren dengan NSPP](demo_screenshots/demo_02_daftar_pesantren.png)
+![Pendaftaran Lembaga LBM NU dengan SK](demo_screenshots/demo_02b_daftar_organisasi.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Pilihan 2 Tipe Lembaga:** Mengakomodasi realitas di lapangan:
@@ -120,7 +120,7 @@ graph TD
 ### 4.1 Dasbor Utama Lembaga & Catatan Koreksi
 **URL:** `https://mochi-six-ochre.vercel.app/dasbor`
 
-![Dasbor Utama Lembaga Lenteng](public/demo_screenshots/demo_03_dasbor_lembaga_lenteng.png)
+![Dasbor Utama Lembaga Lenteng](demo_screenshots/demo_03_dasbor_lembaga_lenteng.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Lencana "Terverifikasi":** Menandakan pesantren berhak menerbitkan keputusan fiqih ke publik. Jika akun belum disetujui, tombol terbit dibekukan.
@@ -140,7 +140,7 @@ graph TD
 ### 4.2 Pengelolaan Forum Bahtsul Masail
 **URL:** `https://mochi-six-ochre.vercel.app/dasbor/forum`
 
-![Daftar Forum Bahtsul Masail Lembaga](public/demo_screenshots/demo_04_forum_lembaga_lenteng.png)
+![Daftar Forum Bahtsul Masail Lembaga](demo_screenshots/demo_04_forum_lembaga_lenteng.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Tabel Riwayat Forum:** Mencatat nama acara (*"Bahtsul Masail MWCNU Lenteng 2023"*), tanggal Masehi dan Hijriah, lokasi tuan rumah, dan jumlah masalah yang dibahas.
@@ -158,7 +158,7 @@ graph TD
 ### 4.3 Wizard Masalah Baru (Alur 5 Langkah Bersanad)
 **URL:** `https://mochi-six-ochre.vercel.app/dasbor/forum/baru`
 
-![Wizard Masalah Baru Langkah 1](public/demo_screenshots/demo_05_wizard_langkah1.png)
+![Wizard Masalah Baru Langkah 1](demo_screenshots/demo_05_wizard_langkah1.png)
 
 > [!IMPORTANT]
 > **INILAH JANTUNG INOVASI PRODUK MOCHI — ALOKASIKAN 45 DETIK UNTUK MENJELASKAN WIZARD INI.**
@@ -183,7 +183,7 @@ graph TD
 ### 4.4 Statistik & Analisis Keaktifan Lembaga
 **URL:** `https://mochi-six-ochre.vercel.app/dasbor/statistik`
 
-![Statistik Lembaga Lenteng](public/demo_screenshots/demo_06_statistik_lembaga.png)
+![Statistik Lembaga Lenteng](demo_screenshots/demo_06_statistik_lembaga.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Metrik Tayangan Riil:** Menghitung jumlah pembaca keputusan fatwa milik lembaga di portal publik.
@@ -202,7 +202,7 @@ graph TD
 ### 4.5 Manajemen Profil Lembaga
 **URL:** `https://mochi-six-ochre.vercel.app/dasbor/profil`
 
-![Profil Lembaga Lenteng](public/demo_screenshots/demo_07_profil_lembaga.png)
+![Profil Lembaga Lenteng](demo_screenshots/demo_07_profil_lembaga.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Identitas Resmi:** Menampilkan data SK/NSPP, alamat domisili, email, kontak narahubung, dan logo resmi lembaga.
@@ -225,7 +225,7 @@ graph TD
 ### 5.1 Antrean Verifikasi NSPP & Legalitas
 **URL:** `https://mochi-six-ochre.vercel.app/admin/verifikasi`
 
-![Antrean Verifikasi NSPP Admin](public/demo_screenshots/demo_08_admin_verifikasi.png)
+![Antrean Verifikasi NSPP Admin](demo_screenshots/demo_08_admin_verifikasi.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Gerbang Kurasi Legalitas:** Tempat Admin Pusat meninjau permohonan pendaftaran lembaga baru.
@@ -244,7 +244,7 @@ graph TD
 ### 5.2 Manajemen Direktori Seluruh Lembaga
 **URL:** `https://mochi-six-ochre.vercel.app/admin/lembaga`
 
-![Manajemen Direktori Seluruh Lembaga](public/demo_screenshots/demo_09_admin_kelola_lembaga.png)
+![Manajemen Direktori Seluruh Lembaga](demo_screenshots/demo_09_admin_kelola_lembaga.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Pangkalan Data Lembaga Nasional:** Menampilkan direktori seluruh pesantren dan LBM NU se-Indonesia (Lirboyo, Tebuireng, Sidogiri, Lenteng, dll.).
@@ -259,7 +259,7 @@ graph TD
 ### 5.3 Master Kitab Turats Rujukan & Roadmap Repo Kitab (Fase 2)
 **URL:** `https://mochi-six-ochre.vercel.app/admin/kitab`
 
-![Kelola Master Kitab Turats Rujukan](public/demo_screenshots/demo_admin_kelola_kitab.png)
+![Kelola Master Kitab Turats Rujukan](demo_screenshots/demo_admin_kelola_kitab.png)
 
 ### 🔍 Deskripsi Fitur:
 * **35 Master Kitab Muktabarah:** Terindeks di database (Fathul Wahhab, Al-Majmu', Bughyatul Mustarsyidin, Ihya' Ulumiddin, dll.) lengkap dengan judul Arab Amiri, nama mualif, dan tahun wafat.
@@ -277,8 +277,8 @@ graph TD
 ### 5.4 Moderasi Laporan Koreksi Publik (Alur End-to-End dari Pembaca ke Admin)
 **URL Publik:** `/masalah/[slug]` &rarr; **URL Meja Admin:** `/admin/laporan`
 
-![Modal Laporan Koreksi di Halaman Publik](public/demo_screenshots/demo_modal_lapor_publik.png)
-![Meja Moderasi Laporan Koreksi Admin](public/demo_screenshots/demo_10_admin_laporan_publik.png)
+![Modal Laporan Koreksi di Halaman Publik](demo_screenshots/demo_modal_lapor_publik.png)
+![Meja Moderasi Laporan Koreksi Admin](demo_screenshots/demo_10_admin_laporan_publik.png)
 
 ### 🔍 Deskripsi Fitur (Alur Peer-Review Umat):
 1. **Titik Lapor di Halaman Publik:** Pembaca menemukan tombol jelas *"Laporkan Koreksi / Typo Ibarat"* di samping naskah fatwa dan di bawah kutipan ibarat.
@@ -297,7 +297,7 @@ graph TD
 ### 5.5 Dashboard Nasional Ditjen Pesantren (Integrasi Kemenag)
 **URL:** `https://mochi-six-ochre.vercel.app/admin/ditjen`
 
-![Dashboard Nasional Ditjen Pesantren](public/demo_screenshots/demo_11_admin_ditjen_integrasi.png)
+![Dashboard Nasional Ditjen Pesantren](demo_screenshots/demo_11_admin_ditjen_integrasi.png)
 
 > [!IMPORTANT]
 > **TUTUP DEMO ANDA DI SINI — INILAH NILAI JUAL TERTINGGI BAGI KEMENTERIAN AGAMA RI.**
@@ -320,7 +320,7 @@ graph TD
 ### 5.6 Profil Admin & Pengamanan Sesi
 **URL:** `https://mochi-six-ochre.vercel.app/admin/profil`
 
-![Profil Admin dan Keamanan Sesi](public/demo_screenshots/demo_12_admin_profil_keamanan.png)
+![Profil Admin dan Keamanan Sesi](demo_screenshots/demo_12_admin_profil_keamanan.png)
 
 ### 🔍 Deskripsi Fitur:
 * **Pengamanan Sesi Otomatis (Idle Monitor 60 Menit):** Sesi kedinasan akan tertutup otomatis bila tidak ada aktivitas selama 60 menit demi menjaga kerahasiaan data di perangkat kantor kementerian.
