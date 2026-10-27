@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   AlertTriangle,
   Check,
@@ -44,6 +44,12 @@ export function BilahAksi({
   const [isSubmittingLapor, setIsSubmittingLapor] = useState(false)
   const [laporSuccess, setLaporSuccess] = useState(false)
   const [laporError, setLaporError] = useState('')
+
+  useEffect(() => {
+    const handleOpenLapor = () => setShowLapor(true)
+    window.addEventListener('open-mochi-lapor', handleOpenLapor)
+    return () => window.removeEventListener('open-mochi-lapor', handleOpenLapor)
+  }, [])
 
   const handleCopySitasi = async () => {
     try {
@@ -320,15 +326,20 @@ export function BilahAksi({
           <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl border border-[#D9D3C3] animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between border-b border-stone-200 pb-3">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-amber-600" />
-                <h3 className="text-base font-bold text-[#1E3F30]">
-                  Koreksi atau Laporkan Konten
-                </h3>
+                <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0" />
+                <div>
+                  <h3 className="text-base font-bold text-[#1E3F30]">
+                    Koreksi atau Laporkan Konten
+                  </h3>
+                  <p className="text-[11px] text-stone-500 font-mono truncate max-w-[280px]">
+                    {kode} — {judul}
+                  </p>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setShowLapor(false)}
-                className="rounded-lg p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700"
+                className="rounded-lg p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -370,15 +381,22 @@ export function BilahAksi({
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-stone-700 block mb-1">
-                    Penjelasan Catatan Koreksi
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-semibold text-stone-700">
+                      Penjelasan Catatan Koreksi *
+                    </label>
+                    <span className={`text-[10px] ${detailLapor.length >= 5 ? 'text-stone-400' : 'text-amber-600 font-semibold'}`}>
+                      {detailLapor.length}/1000 (min 5)
+                    </span>
+                  </div>
                   <textarea
                     required
+                    minLength={5}
+                    maxLength={1000}
                     rows={3}
                     value={detailLapor}
                     onChange={(e) => setDetailLapor(e.target.value)}
-                    placeholder="Tuliskan letak kekeliruan atau usulan perbaikan dengan santun..."
+                    placeholder="Tuliskan letak kekeliruan teks Arab/ibarat, nomor juz/halaman, atau usulan perbaikan..."
                     className="w-full rounded-xl border border-stone-300 bg-white px-3 py-2 text-xs text-stone-800 placeholder:text-stone-400 focus:border-[#1E3F30] focus:outline-hidden"
                   />
                 </div>

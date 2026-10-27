@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
+  AlertTriangle,
   CheckCircle2,
   Clock,
   Plus,
@@ -8,6 +9,7 @@ import {
   FileEdit,
   ArrowRight,
   Calendar,
+  ExternalLink,
   ShieldAlert,
   XCircle,
 } from 'lucide-react'
@@ -55,6 +57,35 @@ export default async function DasborIndexPage() {
     (acc, f) => acc + (f.masalah?.length || 0),
     0
   )
+
+  // Ambil laporan koreksi masyarakat terkait masail lembaga ini
+  const { data: daftarLaporanLembaga } = lembaga
+    ? await adminDb
+        .from('laporan')
+        .select(`
+          id,
+          alasan,
+          detail,
+          kontak,
+          status,
+          catatan_admin,
+          dibuat_pada,
+          masalah:masalah_id!inner (
+            id,
+            kode,
+            judul,
+            slug,
+            forum:forum_id!inner (
+              id,
+              nama,
+              lembaga_id
+            )
+          )
+        `)
+        .eq('masalah.forum.lembaga_id', lembaga.id)
+        .order('dibuat_pada', { ascending: false })
+        .limit(10)
+    : { data: [] }
 
   return (
     <div className="space-y-6 max-w-5xl">
@@ -327,6 +358,107 @@ export default async function DasborIndexPage() {
                 </Link>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Catatan Koreksi & Masukan Pembaca (Community Peer-Review) */}
+      {daftarLaporanLembaga && daftarLaporanLembaga.length > 0 && (
+        <div className="rounded-3xl border border-amber-200 bg-white p-6 shadow-sm space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="rounded-xl bg-amber-100 p-2 text-amber-800">
+                <AlertTriangle className="h-4 w-4" />
+              </div>
+              <div>
+                <h2 className="text-sm font-black text-[#1E3F30]">
+                  Catatan Koreksi &amp; Uji Publik Masail ({daftarLaporanLembaga.length})
+                </h2>
+                <p className="text-[11px] text-stone-500">
+                  Masukan dari pembaca dan masyarakat terkait teks ibarat atau rujukan fatwa lembaga Anda.
+                </p>
+              </div>
+            </div>
+            <span className="rounded-full bg-amber-50 px-3 py-1 text-[11px] font-bold text-amber-800 border border-amber-200 self-start sm:self-auto">
+              Perlu Peninjauan Dewan Pentashih
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {daftarLaporanLembaga.map((lap: any) => {
+              const m = lap.masalah
+              const tgl = new Date(lap.dibuat_pada).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })
+
+              return (
+                <div
+                  key={lap.id}
+                  className="rounded-2xl border border-stone-200 bg-[#FAF8F5] p-4 flex flex-col justify-between gap-3"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-200/70 pb-2.5">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                          lap.status === 'baru'
+                            ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                            : lap.status === 'diproses'
+                            ? 'bg-blue-100 text-blue-800 border border-blue-300'
+                            : lap.status === 'selesai'
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            : 'bg-stone-200 text-stone-700'
+                        }`}
+                      >
+                        {lap.status === 'baru' && <Clock className="h-3 w-3" />}
+                        {lap.status === 'diproses' && <AlertTriangle className="h-3 w-3" />}
+                        {lap.status === 'selesai' && <CheckCircle2 className="h-3 w-3" />}
+                        <span>{lap.status === 'baru' ? 'Baru Masuk' : lap.status === 'diproses' ? 'Sedang Ditinjau' : lap.status}</span>
+                      </span>
+                      <span className="text-[11px] text-stone-500">• {tgl}</span>
+                      <span className="text-[11px] font-bold text-stone-700">
+                        • Alasan: {lap.alasan.replace(/_/g, ' ')}
+                      </span>
+                    </div>
+
+                    {m && (
+                      <Link
+                        href={`/masalah/${m.slug}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[#1E3F30] hover:underline"
+                      >
+                        <span>{m.kode} — {m.judul}</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className="bg-white p-3 rounded-xl border border-stone-200 text-xs text-stone-700 leading-relaxed whitespace-pre-wrap">
+                    <p className="font-semibold text-stone-800 text-[11px] mb-1">Catatan Pembaca:</p>
+                    {lap.detail}
+                  </div>
+
+                  {lap.catatan_admin && (
+                    <div className="bg-blue-50/70 p-3 rounded-xl border border-blue-200 text-xs text-blue-900 leading-relaxed">
+                      <span className="font-bold">Arahan Admin Pusat Kemenag:</span> {lap.catatan_admin}
+                    </div>
+                  )}
+
+                  {m?.forum && (
+                    <div className="flex items-center justify-end gap-2 pt-1">
+                      <Link
+                        href={`/dasbor/forum/${m.forum.id}/edit`}
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-white border border-stone-300 px-3.5 py-1.5 text-xs font-bold text-stone-800 hover:bg-stone-50 transition-colors shadow-2xs"
+                      >
+                        <FileEdit className="h-3.5 w-3.5 text-[#8C733E]" />
+                        <span>Buka Editor Masalah untuk Penyesuaian</span>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       )}

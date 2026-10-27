@@ -402,10 +402,7 @@ export function DetailMasalahClient({
               <button
                 type="button"
                 onClick={() => {
-                  const btn = document.querySelector('[data-testid="tombol-laporkan-koreksi"]') as HTMLButtonElement | null
-                  if (btn) {
-                    btn.click()
-                  }
+                  window.dispatchEvent(new CustomEvent('open-mochi-lapor'))
                 }}
                 className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-amber-800 text-white px-4 py-2.5 font-bold text-xs hover:bg-amber-900 transition-colors shrink-0 shadow-xs cursor-pointer"
               >
