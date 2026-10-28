@@ -184,41 +184,83 @@ export default async function DetailMasalahPage({ params }: PageProps) {
     .eq('forum_id', forum.id)
     .order('urutan', { ascending: true })
 
-  // 4. Ambil masalah terkait (dari forum lain yang memiliki kemiripan topik atau kata kunci)
-  const topikUtama = masalah.topik?.[0] || 'muamalah'
-  const { data: rawTerkait } = await supabase
-    .from('masalah')
-    .select(`
-      id,
-      kode,
-      slug,
-      judul,
-      deskripsi,
-      topik,
-      forum:forum_id (
-        nama,
-        lokasi,
-        tanggal_mulai,
-        pentashih,
-        lembaga:lembaga_id (
-          nama
-        )
-      ),
-      pertanyaan (
-        label,
-        teks,
-        jawaban,
-        rujukan (
-          juz,
-          halaman,
-          teks_arab,
-          kitab:kitab_id (nama_latin)
-        )
+  // 4. Ambil masalah terkait yang benar-benar relevan secara substantif (bukan sekadar sama kategori topik)
+  const kataKunciList = (
+    Array.isArray(masalah.kata_kunci) && masalah.kata_kunci.length > 0
+      ? masalah.kata_kunci.map((k: string) => k.toLowerCase().trim()).filter((k: string) => k.length >= 3)
+      : []
+  )
+
+  const stopWords = new Set([
+    'hukum', 'dalam', 'tinjauan', 'fikih', 'fiqih', 'dan', 'di', 'pada',
+    'tentang', 'terhadap', 'yang', 'untuk', 'atas', 'dengan', 'menurut',
+    'perspektif', 'sebuah', 'antara', 'oleh', 'bagi', 'dari', 'sebagai',
+    'kasus', 'status', 'kajian', 'problema', 'fenomena'
+  ])
+  const kataJudul = (masalah.judul || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((k: string) => k.length >= 4 && !stopWords.has(k))
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let rawTerkait: any[] = []
+
+  const querySelect = `
+    id,
+    kode,
+    slug,
+    judul,
+    deskripsi,
+    topik,
+    forum:forum_id (
+      nama,
+      lokasi,
+      tanggal_mulai,
+      pentashih,
+      lembaga:lembaga_id (
+        nama
       )
-    `)
-    .neq('id', masalah.id)
-    .contains('topik', [topikUtama])
-    .limit(4)
+    ),
+    pertanyaan (
+      label,
+      teks,
+      jawaban,
+      rujukan (
+        juz,
+        halaman,
+        teks_arab,
+        kitab:kitab_id (nama_latin)
+      )
+    )
+  `
+
+  // Coba pencocokan berbasis irisan kata_kunci jika tersedia
+  if (kataKunciList.length > 0) {
+    const { data: byKataKunci } = await supabase
+      .from('masalah')
+      .select(querySelect)
+      .neq('id', masalah.id)
+      .overlaps('kata_kunci', kataKunciList)
+      .limit(4)
+    if (byKataKunci && byKataKunci.length > 0) {
+      rawTerkait = byKataKunci
+    }
+  }
+
+  // Jika belum ada yang cocok via kata_kunci, cocokkan dengan kata substantif judul (misal: 'kripto', 'dropship', 'transplantasi', 'shalat')
+  if (rawTerkait.length === 0 && kataJudul.length > 0) {
+    const orFilter = kataJudul.slice(0, 4).map((kj: string) => `judul.ilike.%${kj}%`).join(',')
+    const { data: byJudul } = await supabase
+      .from('masalah')
+      .select(querySelect)
+      .neq('id', masalah.id)
+      .or(orFilter)
+      .limit(4)
+    if (byJudul && byJudul.length > 0) {
+      rawTerkait = byJudul
+    }
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formattedTerkait = (rawTerkait || []).map((t: any) => {

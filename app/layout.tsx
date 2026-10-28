@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Amiri } from "next/font/google";
 import "@/styles/globals.css";
 import { SwipeToastContainer } from "@/components/ui/SwipeToast";
 import PemantauAktivitasSesi from "@/components/auth/PemantauAktivitasSesi";
+import BilahProgresNavigasi from "@/components/layout/BilahProgresNavigasi";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -150,6 +152,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-canvas text-stone-900 antialiased selection:bg-[#E2ECE6] selection:text-[#1E3F30]">
+        <Suspense fallback={null}>
+          <BilahProgresNavigasi />
+        </Suspense>
         <a href="#main-content" className="skip-to-content font-medium">
           Lewati ke konten utama
         </a>

@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import KerangkaAkun, { Bidang, gayaInput, gayaTombolUtama } from "@/components/mochi/KerangkaAkun";
 import { loginAction } from "@/app/api/auth/actions";
 
@@ -43,9 +43,10 @@ export default function MasukPage() {
               type="email"
               autoComplete="email"
               required
+              disabled={isPending}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={gayaInput}
+              className={`${gayaInput} ${isPending ? "opacity-60 cursor-not-allowed" : ""}`}
               data-testid="masuk-email"
               placeholder="nama@lembaga.id"
             />
@@ -59,14 +60,16 @@ export default function MasukPage() {
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
+                disabled={isPending}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`${gayaInput} pr-12`}
+                className={`${gayaInput} pr-12 ${isPending ? "opacity-60 cursor-not-allowed" : ""}`}
                 data-testid="masuk-sandi"
                 placeholder="••••••••••"
               />
               <button
                 type="button"
+                disabled={isPending}
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition-colors p-1"
                 aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
@@ -104,10 +107,17 @@ export default function MasukPage() {
           <button
             type="submit"
             disabled={isPending || !email || !password}
-            className={gayaTombolUtama}
+            className={`${gayaTombolUtama} flex items-center justify-center gap-2 transition-all duration-200`}
             data-testid="masuk-kirim"
           >
-            {isPending ? "Memeriksa..." : "Masuk"}
+            {isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin text-white" />
+                <span>Memverifikasi &amp; mengalihkan...</span>
+              </>
+            ) : (
+              "Masuk"
+            )}
           </button>
         </form>
       </KerangkaAkun>

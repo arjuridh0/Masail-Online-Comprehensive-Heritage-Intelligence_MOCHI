@@ -1,9 +1,10 @@
-﻿"use client"
+"use client"
 
 import { useState } from 'react'
-import { Calendar, MapPin, Users, Plus, X } from 'lucide-react'
+import { Calendar, MapPin, Users, Plus, X, Sparkles, UploadCloud } from 'lucide-react'
 import { konversiKeHijriah } from '@/lib/hijri'
 import type { WizardForumInput } from '@/lib/validation/wizard'
+import { ModalSmartIngestion } from './ModalSmartIngestion'
 
 export interface Step1Props {
   data: WizardForumInput
@@ -11,6 +12,7 @@ export interface Step1Props {
 }
 
 export function Step1InfoForum({ data, onChange }: Step1Props) {
+  const [isSmartModalOpen, setIsSmartModalOpen] = useState(false)
   const [tagInputs, setTagInputs] = useState({
     pentashih: '',
     perumus: '',
@@ -43,6 +45,37 @@ export function Step1InfoForum({ data, onChange }: Step1Props) {
 
   return (
     <div className="space-y-6">
+      {/* Banner Wadah Smart Ingestion / OCR */}
+      <div className="rounded-2xl border border-dashed border-[#C9A96E] bg-[#FAF8F2] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#1E3F30] text-[#C9A96E]">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-xs font-bold text-[#1E3F30]">Punya Berkas Notulensi / Hasil Ketikan Masail?</h3>
+              <span className="rounded-full bg-[#C9A96E]/20 px-2 py-0.5 text-[9px] font-bold text-[#8C733E]">Vision AI</span>
+            </div>
+            <p className="text-[11px] text-stone-600 mt-0.5">
+              Unggah berkas Word (.docx), PDF, atau foto naskah fisik untuk diparsing otomatis ke form wizard.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setIsSmartModalOpen(true)}
+          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-white border border-[#D9D3C3] px-3.5 py-2 text-xs font-bold text-[#1E3F30] hover:bg-[#1E3F30] hover:text-white hover:border-[#1E3F30] transition-colors shadow-2xs"
+        >
+          <UploadCloud className="h-3.5 w-3.5 text-[#8C733E]" />
+          <span>Unggah Berkas Notulensi</span>
+        </button>
+      </div>
+
+      <ModalSmartIngestion
+        isOpen={isSmartModalOpen}
+        onClose={() => setIsSmartModalOpen(false)}
+      />
+
       <div className="border-b border-stone-200 pb-4">
         <h2 className="text-lg font-black text-[#1E3F30]">Langkah 1: Identitas & Sanad Forum</h2>
         <p className="text-xs text-stone-600 mt-1">

@@ -385,6 +385,7 @@ export default async function DasborIndexPage() {
           </div>
 
           <div className="space-y-3">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {daftarLaporanLembaga.map((lap: any) => {
               const m = lap.masalah
               const tgl = new Date(lap.dibuat_pada).toLocaleDateString('id-ID', {
