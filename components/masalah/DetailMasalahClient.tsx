@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  AlertTriangle,
   BookOpen,
   Calendar,
   ChevronRight,
@@ -388,27 +387,11 @@ export function DetailMasalahClient({
               </section>
             ))}
 
-            {/* Banner Koreksi Publik Ijtima'i */}
-            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs shadow-2xs">
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-amber-700 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-amber-950 text-sm">Menemukan Kesalahan Teks Arab atau Rujukan Kitab?</h4>
-                  <p className="text-amber-800 text-xs mt-0.5 leading-relaxed">
-                    Bantu menjaga kesahihan khazanah ibarat turats dengan mengirimkan catatan koreksi kepada tim pentashih dan administrator MOCHI.
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('open-mochi-lapor'))
-                }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-amber-800 text-white px-4 py-2.5 font-bold text-xs hover:bg-amber-900 transition-colors shrink-0 shadow-xs cursor-pointer"
-              >
-                <span>Kirim Koreksi Masail</span>
-              </button>
-            </div>
+            {/* Panel Pernah Dibahas di Forum Lain (Perbandingan Lintas Bahtsul Masail) */}
+            <PanelTerkait
+              masalahUtama={masalahUtamaBandingkan}
+              daftarTerkait={terkait}
+            />
 
             {/* Dokumentasi Foto Forum */}
             {dokumentasi && dokumentasi.length > 0 && (
@@ -456,14 +439,8 @@ export function DetailMasalahClient({
             />
 
             {/* Kartu Sanad Lengkap */}
-            <div className="sticky top-20 space-y-6">
+            <div className="sticky top-20">
               <KartuSanad data={sanadData} />
-
-              {/* Panel Pernah Dibahas di Forum Lain */}
-              <PanelTerkait
-                masalahUtama={masalahUtamaBandingkan}
-                daftarTerkait={terkait}
-              />
             </div>
           </aside>
         </div>

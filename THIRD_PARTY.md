@@ -12,7 +12,7 @@
 
 | Nama       | Versi    | Lisensi    | Catatan                      |
 | ---------- | -------- | ---------- | ---------------------------- |
-| Next.js    | 16.4.0   | MIT        | Framework utama (App Router) |
+| Next.js    | 16.4.3   | MIT        | Framework utama (App Router) |
 | React      | 19.0.0   | MIT        | UI library                   |
 | React DOM  | 19.0.0   | MIT        | Virtual DOM renderer         |
 | TypeScript | 5.7.3    | Apache-2.0 | Type system strict           |
