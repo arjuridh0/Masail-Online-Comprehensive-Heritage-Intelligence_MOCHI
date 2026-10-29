@@ -17,6 +17,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["node_modules/**", ".next/**", "dist/**", "scripts/**"],
+    ignores: ["node_modules/**", ".next/**", "dist/**", "scripts/**", "scratch/**"],
   }
 );

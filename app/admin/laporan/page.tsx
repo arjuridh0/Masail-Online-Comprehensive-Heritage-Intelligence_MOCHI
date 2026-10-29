@@ -37,7 +37,13 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
         id,
         kode,
         judul,
-        slug
+        slug,
+        forum:forum_id (
+          nama,
+          lembaga:lembaga_id (
+            nama
+          )
+        )
       )
     `)
     .order('dibuat_pada', { ascending: false })
@@ -138,6 +144,18 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
                       <span>{lap.status}</span>
                     </span>
 
+                    {lap.alasan.startsWith('tashih_') ||
+                    lap.alasan === 'ibarat_kurang_tepat' ||
+                    lap.alasan === 'terjemah_keliru' ? (
+                      <span className="rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 text-[10px] font-semibold">
+                        Tashih Fiqih (Pesantren)
+                      </span>
+                    ) : (
+                      <span className="rounded-md bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 text-[10px] font-semibold">
+                        Pelanggaran Konten (Admin)
+                      </span>
+                    )}
+
                     <span className="text-xs text-stone-500">• {tgl}</span>
                     {lap.kontak && (
                       <span className="text-xs text-stone-500">
@@ -147,14 +165,21 @@ export default async function AdminLaporanPage({ searchParams }: PageProps) {
                   </div>
 
                   {m && (
-                    <Link
-                      href={`/masalah/${m.slug}`}
-                      target="_blank"
-                      className="inline-flex items-center gap-1 text-xs font-bold text-[#1E3F30] hover:underline"
-                    >
-                      <span>{m.kode} — {m.judul}</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </Link>
+                    <div className="flex flex-col sm:items-end text-left sm:text-right">
+                      <Link
+                        href={`/masalah/${m.slug}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[#1E3F30] hover:underline"
+                      >
+                        <span>{m.kode} — {m.judul}</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </Link>
+                      {m.forum?.lembaga?.nama && (
+                        <span className="text-[11px] text-stone-500 font-medium">
+                          Pesantren: {m.forum.lembaga.nama}
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
 

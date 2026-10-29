@@ -52,8 +52,8 @@ test.describe("Smoke Test Alur Inti MOCHI", () => {
     // Kode masalah MCH-
     await expect(page.getByText("MCH-2004-0001").first()).toBeVisible();
 
-    // Kartu Sanad terlihat
-    await expect(page.getByText("Sanad Masalah")).toBeVisible();
+    // Kartu Sanad terlihat (sidebar desktop)
+    await expect(page.locator("aside").getByText("Sanad Masalah")).toBeVisible();
     await expect(page.getByText("LBM PWNU Jawa Timur").first()).toBeVisible();
 
     // Ibarat kitab turats Takmilah al-Majmu'

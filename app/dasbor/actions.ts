@@ -190,3 +190,204 @@ export async function uploadFotoDokumentasiAction(formData: FormData): Promise<{
   const { data: pubUrl } = adminDb.storage.from('dokumentasi').getPublicUrl(fileName)
   return { success: true, url: pubUrl?.publicUrl }
 }
+
+export async function tanggapiTashihLembagaAction(
+  formData: FormData
+): Promise<{ success?: boolean; error?: string; message?: string }> {
+  const sesi = await getSesiPengguna()
+  if (!sesi || !sesi.lembaga) {
+    return { error: 'Sesi pengelola lembaga tidak ditemukan.' }
+  }
+
+  const laporanId = formData.get('laporan_id') as string
+  const status = formData.get('status') as 'selesai' | 'ditolak'
+  const catatanLembaga = ((formData.get('catatan_lembaga') as string) || '').trim()
+
+  if (!laporanId || !status) {
+    return { error: 'Data tanggapan tidak lengkap.' }
+  }
+
+  const adminDb = createAdminClient()
+
+  // 1. Verifikasi kepemilikan masalah/forum (Keamanan IDOR)
+  const { data: lap } = await adminDb
+    .from('laporan')
+    .select(`
+      id,
+      masalah:masalah_id (
+        id,
+        slug,
+        forum:forum_id (
+          lembaga_id
+        )
+      )
+    `)
+    .eq('id', laporanId)
+    .single()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const m = lap?.masalah as any
+  if (!lap || m?.forum?.lembaga_id !== sesi.lembaga.id) {
+    return { error: 'Akses ditolak. Anda tidak memiliki otoritas atas keputusan ini.' }
+  }
+
+  const pesanRespon = catatanLembaga
+    ? `[Dewan Pentashih Lembaga]: ${catatanLembaga}`
+    : status === 'selesai'
+    ? '[Dewan Pentashih Lembaga]: Usulan telah ditinjau dan diselesaikan.'
+    : '[Dewan Pentashih Lembaga]: Usulan telah ditelaah namun belum dapat diterapkan pada naskah saat ini.'
+
+  const { error: updateErr } = await adminDb
+    .from('laporan')
+    .update({
+      status,
+      catatan_admin: pesanRespon,
+    })
+    .eq('id', laporanId)
+
+  if (updateErr) {
+    return { error: 'Gagal memperbarui status masukan: ' + updateErr.message }
+  }
+
+  await adminDb.from('log_audit').insert({
+    user_id: sesi.id,
+    aksi: `tanggapi_tashih_${status}`,
+    entitas: 'laporan',
+    entitas_id: laporanId,
+    meta: { status, catatan: catatanLembaga },
+  })
+
+  revalidatePath('/dasbor')
+  if (m?.slug) {
+    revalidatePath(`/masalah/${m.slug}`)
+  }
+
+  return {
+    success: true,
+    message: status === 'selesai'
+      ? 'Catatan usulan berhasil ditandai selesai.'
+      : 'Catatan usulan berhasil diarsipkan.',
+  }
+}
+
+export async function terapkanKoreksiTashihAction(
+  formData: FormData
+): Promise<{ success?: boolean; error?: string; message?: string }> {
+  const sesi = await getSesiPengguna()
+  if (!sesi || !sesi.lembaga) {
+    return { error: 'Sesi pengelola lembaga tidak ditemukan.' }
+  }
+
+  const laporanId = formData.get('laporan_id') as string
+  const masalahId = formData.get('masalah_id') as string
+  const rujukanId = (formData.get('rujukan_id') as string) || null
+  const targetKolom = (formData.get('target_kolom') as string) || 'teks_arab'
+  const teksBaru = ((formData.get('teks_baru') as string) || '').trim()
+  const ringkasanRevisi = ((formData.get('ringkasan_revisi') as string) || '').trim()
+
+  if (!laporanId || !masalahId || !teksBaru) {
+    return { error: 'Data koreksi tidak lengkap. Teks perbaikan wajib diisi.' }
+  }
+
+  const adminDb = createAdminClient()
+
+  // 1. Verifikasi kepemilikan masalah (Keamanan IDOR)
+  const { data: masalahData } = await adminDb
+    .from('masalah')
+    .select(`
+      id,
+      slug,
+      judul,
+      forum:forum_id (
+        id,
+        lembaga_id
+      )
+    `)
+    .eq('id', masalahId)
+    .single()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mf = masalahData as any
+  if (!masalahData || mf?.forum?.lembaga_id !== sesi.lembaga.id) {
+    return { error: 'Akses ditolak. Anda tidak berwenang mengubah keputusan ini.' }
+  }
+
+  // 2. Terapkan pembaruan teks
+  let snapshotSebelum: unknown = null
+
+  if (rujukanId && (targetKolom === 'teks_arab' || targetKolom === 'terjemah')) {
+    const { data: rujukanLama } = await adminDb
+      .from('rujukan')
+      .select('id, teks_arab, terjemah, kitab_teks')
+      .eq('id', rujukanId)
+      .single()
+
+    snapshotSebelum = rujukanLama ? (rujukanLama as Record<string, unknown>)[targetKolom] : null
+
+    const updateObj: Record<string, string> = {}
+    updateObj[targetKolom] = teksBaru
+
+    const { error: rujukanErr } = await adminDb
+      .from('rujukan')
+      .update(updateObj)
+      .eq('id', rujukanId)
+
+    if (rujukanErr) {
+      return { error: 'Gagal memperbarui rujukan: ' + rujukanErr.message }
+    }
+  } else if (targetKolom === 'deskripsi') {
+    snapshotSebelum = masalahData.judul
+    await adminDb.from('masalah').update({ deskripsi: teksBaru }).eq('id', masalahId)
+  }
+
+  // 3. Catat ke tabel riwayat revisi (Audit Trail & Transparansi Publik)
+  const ringkasanFinal =
+    ringkasanRevisi ||
+    `Penyempurnaan ${targetKolom.replace('_', ' ')} rujukan turats berdasarkan telaah tashih komunitas`
+
+  await adminDb.from('revisi').insert({
+    entitas: 'masalah',
+    entitas_id: masalahId,
+    snapshot: {
+      rujukan_id: rujukanId,
+      target_kolom: targetKolom,
+      sebelum: snapshotSebelum,
+      sesudah: teksBaru,
+    },
+    ringkasan: ringkasanFinal,
+    oleh: sesi.id,
+  })
+
+  // 4. Update status laporan menjadi selesai
+  await adminDb
+    .from('laporan')
+    .update({
+      status: 'selesai',
+      catatan_admin: `[Telah Ditashih] Teks disempurnakan oleh Dewan Pentashih pada ${new Date().toLocaleDateString(
+        'id-ID'
+      )}.`,
+    })
+    .eq('id', laporanId)
+
+  // 5. Catat audit log
+  await adminDb.from('log_audit').insert({
+    user_id: sesi.id,
+    aksi: 'terapkan_tashih_komunitas',
+    entitas: 'masalah',
+    entitas_id: masalahId,
+    meta: {
+      laporan_id: laporanId,
+      rujukan_id: rujukanId,
+      kolom: targetKolom,
+    },
+  })
+
+  revalidatePath('/dasbor')
+  revalidatePath(`/masalah/${masalahData.slug}`)
+  revalidatePath('/perpustakaan')
+
+  return {
+    success: true,
+    message: 'Tashih berhasil diterapkan! Teks telah diperbarui dan tercatat di riwayat revisi publik.',
+  }
+}

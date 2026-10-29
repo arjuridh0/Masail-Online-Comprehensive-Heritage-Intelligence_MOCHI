@@ -1,6 +1,6 @@
 "use client"
 
-import { BookOpen, Copy } from 'lucide-react'
+import { BookOpen, Copy, BookCheck } from 'lucide-react'
 import { FuseButton } from '@/components/ui/FuseButton'
 import { toast } from '@/components/ui/SwipeToast'
 
@@ -91,8 +91,28 @@ export function KotakIbarat({ rujukan, fontSizeClass = 'text-2xl sm:text-3xl' }:
           </div>
         )}
 
-        {/* Tombol Salin */}
-        <div className="flex justify-end pt-1">
+        {/* Tombol Aksi Ibarat: Usulkan Tashih & Salin */}
+        <div className="flex items-center justify-end gap-2 pt-1 flex-wrap">
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent('open-mochi-tashih', {
+                  detail: {
+                    rujukanId: rujukan.id,
+                    kitabNama: rujukan.kitab_latin,
+                    teksArab: rujukan.teks_arab || '',
+                  },
+                })
+              )
+            }}
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-[#D9D3C3] bg-white px-3.5 py-2 text-xs font-semibold text-stone-700 shadow-2xs hover:bg-[#FAF8F2] hover:text-[#1E3F30] hover:border-[#8C733E] transition-colors cursor-pointer"
+            title="Usulkan perbaikan harakat atau teks ibarat ini ke dewan pentashih"
+          >
+            <BookCheck className="h-4 w-4 text-[#8C733E]" />
+            <span>Usulkan Tashih</span>
+          </button>
+
           <FuseButton
             label="Salin Ibarat & Terjemah"
             fuseLabel="Tersalin ke Clipboard!"

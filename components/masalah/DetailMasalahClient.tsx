@@ -6,11 +6,14 @@ import Image from 'next/image'
 import {
   BookOpen,
   Calendar,
+  CheckCircle2,
   ChevronRight,
   Eye,
   Hash,
+  History,
   MapPin,
   Tag,
+  X,
 } from 'lucide-react'
 import type { RujukanItem } from './KotakIbarat';
 import { KotakIbarat } from './KotakIbarat'
@@ -52,6 +55,11 @@ interface DetailMasalahClientProps {
     keterangan?: string | null
   }[]
   terkait: TerkaitItem[]
+  riwayatRevisi?: {
+    id: string
+    ringkasan: string | null
+    pada: string
+  }[]
   sitasiTeks: string
   canonicalUrl: string
 }
@@ -63,10 +71,12 @@ export function DetailMasalahClient({
   pertanyaan,
   dokumentasi,
   terkait,
+  riwayatRevisi = [],
   sitasiTeks,
   canonicalUrl,
 }: DetailMasalahClientProps) {
   const [fontSize, setFontSize] = useState<'md' | 'lg' | 'xl'>('lg')
+  const [showRiwayatModal, setShowRiwayatModal] = useState(false)
 
   useEffect(() => {
     try {
@@ -119,6 +129,16 @@ export function DetailMasalahClient({
     })),
     pentashih: forum.pentashih,
   }
+
+  const daftarRujukanSimple = pertanyaan.flatMap((p) =>
+    p.rujukan.map((r) => ({
+      id: r.id,
+      kitab: r.kitab_latin,
+      juz: r.juz,
+      halaman: r.halaman,
+      teksArab: r.teks_arab,
+    }))
+  )
 
   return (
     <>
@@ -186,6 +206,18 @@ export function DetailMasalahClient({
               <span className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-900 capitalize">
                 Corak {masalah.corak}
               </span>
+            )}
+
+            {riwayatRevisi.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowRiwayatModal(true)}
+                className="inline-flex items-center gap-1.5 rounded-md border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-900 hover:bg-emerald-100 transition-colors cursor-pointer shadow-2xs"
+                title="Keputusan ini telah disempurnakan melalui proses tashih"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700" />
+                <span>Telah Ditashih ({riwayatRevisi.length}x)</span>
+              </button>
             )}
 
             <span className="ml-auto inline-flex items-center gap-1 text-xs text-stone-500">
@@ -398,6 +430,7 @@ export function DetailMasalahClient({
                 urlTeks={canonicalUrl}
                 fontSize={fontSize}
                 onChangeFontSize={handleFontSizeChange}
+                daftarRujukan={daftarRujukanSimple}
               />
             </div>
 
@@ -450,6 +483,7 @@ export function DetailMasalahClient({
               urlTeks={canonicalUrl}
               fontSize={fontSize}
               onChangeFontSize={handleFontSizeChange}
+              daftarRujukan={daftarRujukanSimple}
             />
 
             {/* Kartu Sanad Lengkap */}
@@ -459,6 +493,78 @@ export function DetailMasalahClient({
           </aside>
         </div>
       </article>
+
+      {/* Modal Riwayat Tashih / Revisi Transparan */}
+      {showRiwayatModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
+          <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl border border-[#D9D3C3] animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="rounded-xl bg-emerald-100 p-2 text-emerald-800">
+                  <History className="h-5 w-5 text-emerald-800" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#1E3F30]">
+                    Riwayat Tashih Keputusan
+                  </h3>
+                  <p className="text-xs text-stone-500 font-mono">
+                    {masalah.kode} — {lembaga.nama}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRiwayatModal(false)}
+                className="rounded-lg p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Keputusan ini telah melalui proses telaah ulang dan penyempurnaan redaksi/ibarat turats oleh Dewan Pentashih <strong>{lembaga.nama}</strong>:
+              </p>
+
+              <div className="space-y-3 pt-2">
+                {riwayatRevisi.map((rev, index) => {
+                  const tgl = new Date(rev.pada).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })
+                  return (
+                    <div
+                      key={rev.id || index}
+                      className="rounded-xl border border-stone-200 bg-[#FAF8F5] p-3.5 text-xs space-y-1.5"
+                    >
+                      <div className="flex items-center justify-between text-[11px] text-stone-500 font-medium">
+                        <span className="font-bold text-[#1E3F30]">
+                          Tashih #{riwayatRevisi.length - index}
+                        </span>
+                        <span>{tgl}</span>
+                      </div>
+                      <p className="text-stone-800 font-medium leading-relaxed">
+                        {rev.ringkasan || 'Penyempurnaan teks dan rujukan kitab oleh dewan pentashih.'}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-end pt-2 border-t border-stone-100">
+              <button
+                type="button"
+                onClick={() => setShowRiwayatModal(false)}
+                className="rounded-xl bg-[#1E3F30] px-4 py-2 text-xs font-bold text-white hover:bg-[#2D5A46] cursor-pointer"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

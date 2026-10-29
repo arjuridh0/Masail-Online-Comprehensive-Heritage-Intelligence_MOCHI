@@ -308,6 +308,13 @@ export default async function DetailMasalahPage({ params }: PageProps) {
 
   const canonicalUrl = `${baseUrl.replace(/\/$/, '')}/masalah/${masalah.slug}`
 
+  // 5. Ambil riwayat revisi keputusan (tashih ilmiah)
+  const { data: rawRevisi } = await supabase
+    .from('revisi')
+    .select('id, ringkasan, pada')
+    .eq('entitas_id', masalah.id)
+    .order('pada', { ascending: false })
+
   return (
     <DetailMasalahClient
       masalah={masalah}
@@ -316,6 +323,7 @@ export default async function DetailMasalahPage({ params }: PageProps) {
       pertanyaan={formattedPertanyaan}
       dokumentasi={rawDokumentasi || []}
       terkait={formattedTerkait}
+      riwayatRevisi={rawRevisi || []}
       sitasiTeks={sitasiTeks}
       canonicalUrl={canonicalUrl}
     />
