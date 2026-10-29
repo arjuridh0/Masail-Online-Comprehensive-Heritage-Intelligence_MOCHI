@@ -66,18 +66,6 @@ export function NavigasiMobileDasbor({
     setBuka(false)
   }, [pathname])
 
-  // Cegah scroll body saat drawer terbuka
-  useEffect(() => {
-    if (buka) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [buka])
-
   // Tangani tombol keyboard ESC
   useEffect(() => {
     if (!buka) return

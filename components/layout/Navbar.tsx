@@ -115,18 +115,6 @@ export default function Navbar({ sesi }: { sesi?: RingkasanSesiNavbar | null }) 
     };
   }, [mobileMenuOpen]);
 
-  // Kunci scroll body saat menu mobile aktif
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -345,7 +333,7 @@ export default function Navbar({ sesi }: { sesi?: RingkasanSesiNavbar | null }) 
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 top-16 z-50 bg-stone-900/40 backdrop-blur-xs md:hidden"
+              className="fixed inset-0 top-16 z-50 bg-stone-900/40 backdrop-blur-xs md:hidden touch-none"
               aria-hidden="true"
             />
 

@@ -75,18 +75,6 @@ export function NavigasiMobileAdmin({
     setBuka(false)
   }, [pathname])
 
-  // Kunci body scroll saat drawer aktif
-  useEffect(() => {
-    if (buka) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [buka])
-
   // Tangani tombol ESC
   useEffect(() => {
     if (!buka) return
