@@ -53,6 +53,12 @@ supabase/backup/
 /docs/
 *.pdf
 *.docx
+*.pptx
+presentasi_mochi.html
+BANK_PERTANYAAN_JURI_DAN_JAWABAN_PITCHING.*
+PANDUAN_DEMO_ADMIN_PITCHING.*
+demo_screenshots/
+/public/demo_screenshots/
 task.md
 AGENTS.md
 
