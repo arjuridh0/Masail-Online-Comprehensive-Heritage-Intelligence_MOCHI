@@ -311,49 +311,6 @@ export function DetailMasalahClient({
               </div>
             )}
 
-            {/* Quick Font Size Switcher untuk Kenyamanan Pembacaan Turats */}
-            <div className="flex items-center justify-between rounded-xl border border-[#D9D3C3] bg-[#FAF8F2] px-4 py-2.5 text-xs text-stone-700 shadow-2xs">
-              <span className="font-semibold text-stone-700">Ukuran Teks Arab:</span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => handleFontSizeChange('md')}
-                  className={`rounded-md px-2.5 py-1 text-xs font-bold transition-all ${
-                    fontSize === 'md'
-                      ? 'bg-[#1E3F30] text-white shadow-2xs'
-                      : 'border border-[#DDD6C5] bg-white text-stone-700 hover:bg-stone-50'
-                  }`}
-                  aria-label="Ukuran huruf Arab sedang"
-                >
-                  A
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleFontSizeChange('lg')}
-                  className={`rounded-md px-2.5 py-1 text-xs font-bold transition-all ${
-                    fontSize === 'lg'
-                      ? 'bg-[#1E3F30] text-white shadow-2xs'
-                      : 'border border-[#DDD6C5] bg-white text-stone-700 hover:bg-stone-50'
-                  }`}
-                  aria-label="Ukuran huruf Arab besar"
-                >
-                  A+
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleFontSizeChange('xl')}
-                  className={`rounded-md px-2.5 py-1 text-xs font-bold transition-all ${
-                    fontSize === 'xl'
-                      ? 'bg-[#1E3F30] text-white shadow-2xs'
-                      : 'border border-[#DDD6C5] bg-white text-stone-700 hover:bg-stone-50'
-                  }`}
-                  aria-label="Ukuran huruf Arab ekstra besar"
-                >
-                  A++
-                </button>
-              </div>
-            </div>
-
             {/* Loop Pertanyaan */}
             {pertanyaan.map((item, idx) => (
               <section
