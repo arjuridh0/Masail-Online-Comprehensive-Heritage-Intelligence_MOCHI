@@ -61,6 +61,50 @@ export function ChatContainer({
   const [sapaanIdx, setSapaanIdx] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isHydrated = useRef(false);
+
+  // 1. Muat riwayat obrolan dari sessionStorage saat komponen dimuat (tahan navigasi & expand modal)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const saved = sessionStorage.getItem("mochi_chat_history");
+      if (saved) {
+        const parsed: ChatMessage[] = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Pastikan flag streaming ditutup jika sempat terputus
+          setMessages(parsed.map((m) => ({ ...m, isStreaming: false })));
+        }
+      }
+    } catch (e) {
+      console.warn("Gagal memulihkan sesi obrolan MOCHI:", e);
+    } finally {
+      isHydrated.current = true;
+    }
+  }, []);
+
+  // 2. Sinkronkan riwayat obrolan ke sessionStorage setiap kali ada pesan baru
+  useEffect(() => {
+    if (!isHydrated.current || typeof window === "undefined") return;
+    try {
+      if (messages.length > 0) {
+        sessionStorage.setItem("mochi_chat_history", JSON.stringify(messages));
+      } else {
+        sessionStorage.removeItem("mochi_chat_history");
+      }
+    } catch (e) {
+      console.warn("Gagal menyimpan sesi obrolan MOCHI:", e);
+    }
+  }, [messages]);
+
+  const handleReset = () => {
+    setMessages([]);
+    setInput("");
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.removeItem("mochi_chat_history");
+      } catch {}
+    }
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -256,10 +300,7 @@ export function ChatContainer({
           {/* Tombol Mulai Ulang / Obrolan Baru */}
           <button
             type="button"
-            onClick={() => {
-              setMessages([]);
-              setInput("");
-            }}
+            onClick={handleReset}
             className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E3DC] bg-white/80 px-2.5 py-1.5 text-[11px] font-semibold text-stone-600 hover:bg-white hover:text-stone-900 transition-all shadow-2xs active:scale-95 cursor-pointer"
             title="Mulai obrolan baru"
           >

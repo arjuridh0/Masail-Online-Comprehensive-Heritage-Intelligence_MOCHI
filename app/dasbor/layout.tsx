@@ -36,10 +36,10 @@ export default async function DasborLayout({
   return (
     <div className="flex min-h-screen bg-[#F4F3EE]">
       {/* Sidebar Dasbor */}
-      <aside className="w-64 shrink-0 border-r border-[#D9D3C3] bg-white hidden md:flex flex-col justify-between">
-        <div>
+      <aside className="w-64 shrink-0 border-r border-[#D9D3C3] bg-white hidden md:flex flex-col justify-between sticky top-0 h-screen z-20">
+        <div className="flex flex-col min-h-0 overflow-hidden">
           {/* Brand Header */}
-          <div className="p-5 border-b border-stone-100 flex items-center gap-3">
+          <div className="p-5 border-b border-stone-100 flex items-center gap-3 shrink-0">
             <div className="relative h-9 w-9">
               <Image
                 src="/brand/mochi-symbol.svg"
@@ -59,7 +59,7 @@ export default async function DasborLayout({
           </div>
 
           {/* Navigasi */}
-          <nav className="p-3 space-y-1">
+          <nav className="p-3 space-y-1 overflow-y-auto flex-1">
             <Link
               href="/dasbor"
               className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-[#1E3F30] hover:bg-[#FAF8F2] transition-colors"
@@ -105,7 +105,7 @@ export default async function DasborLayout({
         </div>
 
         {/* Profil Bawah & Keluar */}
-        <div className="p-4 border-t border-stone-100">
+        <div className="p-4 border-t border-stone-100 shrink-0 bg-white">
           <div className="mb-3 px-2">
             <span className="text-xs font-bold text-stone-900 block truncate">
               {sesi.nama}

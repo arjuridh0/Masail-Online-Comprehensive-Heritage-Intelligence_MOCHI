@@ -36,12 +36,12 @@ graph TD
 
 | Lapisan | Pilihan Teknologi | Keterangan |
 |---|---|---|
-| **Framework** | Next.js 16.4.3 (App Router Turbopack) + TypeScript strict | Server Components, Server Actions, Middleware Proxy, Edge Cache |
-| **Styling & UI** | Tailwind CSS v4 + Instrument Serif + Amiri Naskh | Kanvas Ivory `#F4F3EE`, Forest Green `#1E3F30`, Gold `#C9A96E` |
+| **Framework** | Next.js 16.4.3 (App Router Turbopack) + TypeScript strict | Server Components, Server Actions, Middleware Proxy, Edge Cache, Soft SPA Navigation |
+| **Styling & UI** | Tailwind CSS v4 + Instrument Serif + Amiri Naskh | Kanvas Ivory `#F4F3EE`, Forest Green `#1E3F30`, Gold `#C9A96E`, Viewport-Sticky Sidebars |
 | **Micro-Interactions** | ReactBits (*FuseButton, SwipeToast, ThoughtLine, AccordionGallery*) | Undoing window, live latency indicator, dynamic spine gallery |
 | **Basis Data** | PostgreSQL via Supabase + Row-Level Security | `pgvector` (768 dim), `pg_trgm`, `unaccent`, `pgcrypto` |
 | **Autentikasi & Media** | Supabase Auth + Supabase Storage | 3 Buckets: `logo`, `dokumentasi`, `bukti-lembaga` (privat) |
-| **Kecerdasan Buatan (AI)** | Google text-embedding-004 (768) + Groq Llama 3.3 70B RAG | Streaming SSE + Ambang Nol Halusinasi (0.60) + Gemini Flash Fallback |
+| **Kecerdasan Buatan (AI)** | Google text-embedding-004 (768) + Groq Llama 3.3 70B RAG | Streaming SSE + Ambang Nol Halusinasi (0.60) + Gemini Flash Fallback + Tab Session Persistence |
 | **Validasi & Keamanan** | Zod v3 + In-memory Rate Limiter + Security Headers | Validasi unggahan anti-malware, sanitasi XSS |
 | **Pengujian** | Vitest 5 (90 unit tests, 13 test files) + Playwright (Produksi & Mobile 360px) | 100% kelulusan otomatis, audit keamanan & aksesibilitas WCAG AA |
 
@@ -156,7 +156,7 @@ Sistem beroperasi dalam mode **100% Produksi Penuh**. Seluruh tombol jalan pinta
 - [`docs/UJI_KEGUNAAN.md`](docs/UJI_KEGUNAAN.md) — Laporan Uji Aksesibilitas WCAG AA & Skor SUS (88.5)
 - [`docs/PEMULIHAN.md`](docs/PEMULIHAN.md) — SOP Pencadangan & Pemulihan Bencana
 - [`docs/DEPLOY.md`](docs/DEPLOY.md) — Panduan Penerapan Vercel & Supabase
-- [`docs/AI_USAGE_LOG.md`](docs/AI_USAGE_LOG.md) — Log Transparansi Penggunaan AI (Sesi 1 s.d. 11)
+- [`docs/AI_USAGE_LOG.md`](docs/AI_USAGE_LOG.md) — Log Transparansi Penggunaan AI (Sesi 1 s.d. 27)
 
 ---
 

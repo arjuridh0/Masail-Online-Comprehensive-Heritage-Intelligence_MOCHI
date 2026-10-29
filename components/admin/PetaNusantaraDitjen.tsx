@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { MapPin, Info, CheckCircle2, TrendingUp, Building2 } from 'lucide-react'
+import { PetaSvgNusantara } from './PetaSvgNusantara'
 
 export interface GugusPulauItem {
   id: string
@@ -24,14 +25,6 @@ export function PetaNusantaraDitjen({ pulauStats, totalPesantren }: PetaNusantar
     pulauStats.find((p) => p.id === selectedId) ||
     pulauStats.find((p) => p.id === 'jawa') ||
     pulauStats[0]
-
-  const getIslandHighlightClass = (id: string) => {
-    const isSelected = selectedId === id
-    if (isSelected) {
-      return 'fill-[#1E3F30] stroke-[#C9A96E] stroke-[2.5] filter drop-shadow-md'
-    }
-    return 'fill-[#EAE5D9] stroke-[#CBC4B3] stroke-1 hover:fill-[#D8D0BF] hover:stroke-[#1E3F30] transition-colors duration-200'
-  }
 
   // Rekomendasi afirmasi per gugus wilayah
   const rekomendasiKebijakan: Record<string, { fokus: string; narasi: string }> = {
@@ -79,7 +72,7 @@ export function PetaNusantaraDitjen({ pulauStats, totalPesantren }: PetaNusantar
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E8E6DF] pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-600 animate-pulse" />
               <h3 className="text-sm font-bold uppercase tracking-wider text-[#1E3F30]">
                 Peta Tematik Sebaran Pesantren Mitra Bahtsul Masail
               </h3>
@@ -95,131 +88,12 @@ export function PetaNusantaraDitjen({ pulauStats, totalPesantren }: PetaNusantar
           </div>
         </div>
 
-        {/* Peta SVG Nusantara Murni */}
-        <div className="relative aspect-[950/420] w-full max-w-4xl mx-auto py-2">
-          <svg
-            viewBox="0 0 950 420"
-            className="w-full h-full select-none"
-            aria-label="Peta Geografis Kepulauan Nusantara Indonesia"
-          >
-            <defs>
-              <pattern id="grid-dots" width="24" height="24" patternUnits="userSpaceOnUse">
-                <circle cx="2" cy="2" r="1" fill="#E8E4DA" />
-              </pattern>
-            </defs>
-            <rect width="950" height="420" fill="url(#grid-dots)" rx="16" />
-
-            {/* 1. SUMATERA */}
-            <g
-              onClick={() => setSelectedId('sumatera')}
-              className="cursor-pointer group focus:outline-hidden"
-              role="button"
-              tabIndex={0}
-              aria-label="Gugus Wilayah Sumatera"
-            >
-              <path
-                d="M 120 70 L 140 60 L 165 75 L 195 110 L 220 150 L 245 200 L 260 250 L 250 270 L 235 255 L 210 215 L 175 160 L 145 120 L 125 85 Z"
-                className={getIslandHighlightClass('sumatera')}
-              />
-              {/* Pulau-pulau Nias & Mentawai */}
-              <ellipse cx="140" cy="180" rx="6" ry="14" transform="rotate(-30 140 180)" className={getIslandHighlightClass('sumatera')} />
-              <ellipse cx="180" cy="245" rx="6" ry="20" transform="rotate(-30 180 245)" className={getIslandHighlightClass('sumatera')} />
-              {/* Bangka & Belitung */}
-              <ellipse cx="280" cy="225" rx="12" ry="18" transform="rotate(20 280 225)" className={getIslandHighlightClass('sumatera')} />
-              <ellipse cx="310" cy="240" rx="9" ry="9" className={getIslandHighlightClass('sumatera')} />
-              <text x="185" y="180" textAnchor="middle" className="text-[12px] font-bold fill-[#1E3F30] pointer-events-none tracking-wider">
-                SUMATERA
-              </text>
-            </g>
-
-            {/* 2. JAWA & MADURA */}
-            <g
-              onClick={() => setSelectedId('jawa')}
-              className="cursor-pointer group focus:outline-hidden"
-              role="button"
-              tabIndex={0}
-              aria-label="Gugus Wilayah Jawa dan Madura"
-            >
-              {/* Pulau Jawa */}
-              <path
-                d="M 270 295 C 290 290, 320 292, 350 295 C 380 297, 420 293, 460 298 C 490 300, 520 305, 545 315 L 540 330 C 510 325, 470 322, 430 325 C 390 328, 340 323, 300 320 L 270 310 Z"
-                className={getIslandHighlightClass('jawa')}
-              />
-              {/* Pulau Madura */}
-              <path
-                d="M 525 292 C 540 288, 565 290, 575 295 C 570 302, 550 305, 530 303 Z"
-                className={getIslandHighlightClass('jawa')}
-              />
-              <text x="415" y="315" textAnchor="middle" className="text-[12px] font-bold fill-[#1E3F30] pointer-events-none tracking-wider">
-                JAWA &amp; MADURA
-              </text>
-            </g>
-
-            {/* 3. KALIMANTAN */}
-            <g
-              onClick={() => setSelectedId('kalimantan')}
-              className="cursor-pointer group focus:outline-hidden"
-              role="button"
-              tabIndex={0}
-              aria-label="Gugus Wilayah Kalimantan"
-            >
-              <path
-                d="M 330 145 C 360 120, 420 125, 455 140 C 475 160, 490 190, 480 225 C 470 250, 435 260, 400 262 C 360 265, 335 245, 330 220 C 320 190, 325 160, 330 145 Z"
-                className={getIslandHighlightClass('kalimantan')}
-              />
-              <text x="405" y="195" textAnchor="middle" className="text-[12px] font-bold fill-[#1E3F30] pointer-events-none tracking-wider">
-                KALIMANTAN
-              </text>
-            </g>
-
-            {/* 4. SULAWESI */}
-            <g
-              onClick={() => setSelectedId('sulawesi')}
-              className="cursor-pointer group focus:outline-hidden"
-              role="button"
-              tabIndex={0}
-              aria-label="Gugus Wilayah Sulawesi"
-            >
-              {/* Bentuk K Sulawesi */}
-              <path
-                d="M 545 150 C 570 145, 600 155, 620 145 L 615 155 C 590 162, 570 162, 555 170 C 545 185, 550 205, 565 215 C 585 220, 605 210, 620 220 L 610 230 C 590 225, 570 232, 555 240 C 550 255, 555 275, 545 285 L 535 280 C 540 260, 535 240, 530 220 C 525 190, 535 165, 545 150 Z"
-                className={getIslandHighlightClass('sulawesi')}
-              />
-              <text x="585" y="190" textAnchor="middle" className="text-[12px] font-bold fill-[#1E3F30] pointer-events-none tracking-wider">
-                SULAWESI
-              </text>
-            </g>
-
-            {/* 5. BALI, NUSA TENGGARA, MALUKU & PAPUA */}
-            <g
-              onClick={() => setSelectedId('nusra_maluku_papua')}
-              className="cursor-pointer group focus:outline-hidden"
-              role="button"
-              tabIndex={0}
-              aria-label="Gugus Wilayah Bali, Nusa Tenggara, Maluku, dan Papua"
-            >
-              {/* Bali, Lombok, Sumbawa, Flores, Timor */}
-              <ellipse cx="565" cy="328" rx="8" ry="6" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="585" cy="330" rx="9" ry="6" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="615" cy="332" rx="16" ry="7" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="660" cy="335" rx="24" ry="8" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="710" cy="345" rx="22" ry="9" transform="rotate(-15 710 345)" className={getIslandHighlightClass('nusra_maluku_papua')} />
-
-              {/* Maluku */}
-              <ellipse cx="660" cy="180" rx="12" ry="22" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="685" cy="225" rx="18" ry="9" className={getIslandHighlightClass('nusra_maluku_papua')} />
-              <ellipse cx="675" cy="275" rx="14" ry="8" className={getIslandHighlightClass('nusra_maluku_papua')} />
-
-              {/* Papua */}
-              <path
-                d="M 740 185 C 755 170, 780 180, 800 175 C 830 180, 875 195, 900 205 L 905 270 C 875 275, 840 265, 805 255 C 785 245, 765 240, 750 230 C 730 220, 730 200, 740 185 Z"
-                className={getIslandHighlightClass('nusra_maluku_papua')}
-              />
-              <text x="825" y="225" textAnchor="middle" className="text-[12px] font-bold fill-[#1E3F30] pointer-events-none tracking-wider">
-                PAPUA &amp; TIMUR
-              </text>
-            </g>
-          </svg>
+        {/* Peta SVG Nusantara Geografis Otentik */}
+        <div className="relative aspect-[2021/922] w-full max-w-5xl mx-auto py-2">
+          <PetaSvgNusantara
+            selectedId={selectedId}
+            onSelectId={setSelectedId}
+          />
         </div>
 
         {/* Legend Pilihan Cepat Gugus Pulau */}
@@ -310,3 +184,5 @@ export function PetaNusantaraDitjen({ pulauStats, totalPesantren }: PetaNusantar
     </div>
   )
 }
+
+export default PetaNusantaraDitjen
