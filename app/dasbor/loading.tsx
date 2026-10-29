@@ -3,7 +3,11 @@ import { LoadingMochi } from '@/components/ui/LoadingMochi'
 export default function LoadingDasbor() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-      <LoadingMochi pesan="Menyiapkan dasbor lembaga..." ukuran="sm" />
+      <LoadingMochi
+        pesan="Menyiapkan dasbor lembaga..."
+        subPesan="Si Mochi sedang memuat data arsip musyawarah..."
+        ukuran="md"
+      />
 
       <div className="space-y-6 animate-pulse">
         {/* Sapaan Pengelola Skeleton */}

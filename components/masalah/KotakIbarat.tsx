@@ -66,13 +66,13 @@ export function KotakIbarat({ rujukan, fontSizeClass = 'text-2xl sm:text-3xl' }:
       </div>
 
       {/* Konten Ibarat Teks Arab & Terjemahan */}
-      <div className="p-4 sm:p-6 space-y-4">
+      <div className="p-3.5 sm:p-6 space-y-4">
         {rujukan.teks_arab && (
-          <div className="relative rounded-lg bg-[#FFFDF9] p-4 sm:p-5 border border-[#EBE4D5]">
+          <div className="relative rounded-lg bg-[#FFFDF9] p-3.5 sm:p-5 border border-[#EBE4D5] overflow-x-auto">
             <p
               dir="rtl"
               lang="ar"
-              className={`font-serif leading-[2.2] tracking-wide text-stone-900 text-right ${fontSizeClass}`}
+              className={`font-serif leading-[2.2] tracking-wide text-stone-900 text-right break-words ${fontSizeClass}`}
               style={{ fontFamily: 'var(--font-amiri), serif' }}
             >
               {rujukan.teks_arab}
@@ -100,7 +100,7 @@ export function KotakIbarat({ rujukan, fontSizeClass = 'text-2xl sm:text-3xl' }:
             onConfirm={handleCopy}
             variant="secondary"
             icon={<Copy className="h-3.5 w-3.5 text-stone-500" />}
-            className="min-h-[40px] px-4"
+            className="min-h-[44px] px-4 touch-manipulation"
           />
         </div>
       </div>

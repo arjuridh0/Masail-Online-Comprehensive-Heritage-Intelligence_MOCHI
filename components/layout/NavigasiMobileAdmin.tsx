@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
+  Activity,
   BarChart3,
   BookOpen,
   Building2,
@@ -49,6 +50,11 @@ const NAV_ADMIN = [
     href: '/admin/ditjen',
     label: 'Dashboard Ditjen Kemenag',
     icon: BarChart3,
+  },
+  {
+    href: '/admin/pemantauan',
+    label: 'Pemantauan Sistem (Dev)',
+    icon: Activity,
   },
   {
     href: '/admin/profil',

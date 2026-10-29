@@ -1,4 +1,4 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import {
   Building2,
   Calendar,
@@ -47,7 +47,7 @@ export function KartuSanad({ data, className = '' }: KartuSanadProps) {
 
   return (
     <div
-      className={`rounded-2xl border-l-4 border-l-[#C9A96E] border border-[#D9D3C3] bg-[#F7F5EE] p-5 shadow-sm ${className}`}
+      className={`rounded-2xl border-l-4 border-l-[#C9A96E] border border-[#D9D3C3] bg-[#F7F5EE] p-4 sm:p-5 shadow-sm ${className}`}
     >
       {/* Header Sanad */}
       <div className="flex items-center justify-between border-b border-[#E3DCB] pb-3 mb-4">

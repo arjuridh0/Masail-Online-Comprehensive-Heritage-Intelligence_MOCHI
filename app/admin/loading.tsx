@@ -3,7 +3,11 @@ import { LoadingMochi } from '@/components/ui/LoadingMochi'
 export default function LoadingAdmin() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-      <LoadingMochi pesan="Menyiapkan data konsol admin..." ukuran="sm" />
+      <LoadingMochi
+        pesan="Menyiapkan data konsol admin..."
+        subPesan="Memverifikasi hak akses & integritas sistem..."
+        ukuran="md"
+      />
 
       <div className="space-y-6 animate-pulse">
         <div className="space-y-2">

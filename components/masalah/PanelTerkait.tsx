@@ -39,7 +39,19 @@ export function PanelTerkait({ masalahUtama, daftarTerkait }: PanelTerkaitProps)
   const [selectedPembanding, setSelectedPembanding] = useState<ItemPerbandingan | null>(null)
 
   if (!daftarTerkait || daftarTerkait.length === 0) {
-    return null
+    return (
+      <div className="rounded-2xl border border-[#D9D3C3] bg-[#FAF8F2] p-5 sm:p-6 shadow-xs">
+        <div className="flex items-center gap-2 border-b border-[#E8E2D2] pb-3 mb-2.5">
+          <ArrowLeftRight className="h-4 w-4 text-[#8C733E]" />
+          <h3 className="text-xs font-bold uppercase tracking-widest text-[#1E3F30]">
+            Pembahasan Serupa di Forum Lain
+          </h3>
+        </div>
+        <p className="text-xs text-stone-600 leading-relaxed">
+          Belum ada pembahasan serupa di forum bahtsul masail pesantren lain dalam khazanah repositori MOCHI saat ini. Keputusan hukum ini merupakan bahasan unik yang tercatat di forum ini.
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -48,7 +60,7 @@ export function PanelTerkait({ masalahUtama, daftarTerkait }: PanelTerkaitProps)
         <div className="flex items-center gap-2">
           <ArrowLeftRight className="h-4 w-4 text-[#8C733E]" />
           <h3 className="text-xs font-bold uppercase tracking-widest text-[#1E3F30]">
-            Pernah Dibahas di Forum Lain
+            Pembahasan Serupa di Forum Lain
           </h3>
         </div>
         <span className="text-[11px] font-semibold text-stone-500 bg-white/80 px-2.5 py-0.5 rounded-full border border-[#E8E2D2]">

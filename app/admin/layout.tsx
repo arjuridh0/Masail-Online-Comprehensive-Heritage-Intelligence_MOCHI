@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import {
+  Activity,
   BarChart3,
   BookOpen,
   Building2,
@@ -111,6 +112,14 @@ export default async function AdminLayout({
             >
               <BarChart3 className="h-4 w-4 text-[#1E3F30]" />
               <span>Dashboard Ditjen Kemenag</span>
+            </Link>
+
+            <Link
+              href="/admin/pemantauan"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition-colors"
+            >
+              <Activity className="h-4 w-4 text-[#1E3F30]" />
+              <span>Pemantauan Sistem (Dev)</span>
             </Link>
 
             <Link

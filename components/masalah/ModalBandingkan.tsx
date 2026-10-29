@@ -82,13 +82,13 @@ export function ModalBandingkan({
         </div>
 
         {/* Tab switcher untuk layar HP (< 768px) */}
-        <div className="flex border-b border-stone-200 bg-stone-50 p-2 md:hidden">
+        <div className="flex border-b border-stone-200 bg-stone-50 p-1.5 sm:p-2 md:hidden gap-1.5">
           {items.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`flex-1 rounded-xl py-2 text-xs font-bold transition-all ${
+              className={`flex-1 min-h-[44px] rounded-xl px-2.5 py-2 text-[11px] sm:text-xs font-bold transition-all truncate touch-manipulation ${
                 activeTab === tab.key
                   ? 'bg-[#1E3F30] text-white shadow-xs'
                   : 'text-stone-600 hover:bg-stone-100'

@@ -36,14 +36,14 @@ graph TD
 
 | Lapisan | Pilihan Teknologi | Keterangan |
 |---|---|---|
-| **Framework** | Next.js 16.4.0 (App Router) + TypeScript strict | Server Components, Server Actions, Middleware Proxy |
+| **Framework** | Next.js 16.4.3 (App Router Turbopack) + TypeScript strict | Server Components, Server Actions, Middleware Proxy, Edge Cache |
 | **Styling & UI** | Tailwind CSS v4 + Instrument Serif + Amiri Naskh | Kanvas Ivory `#F4F3EE`, Forest Green `#1E3F30`, Gold `#C9A96E` |
 | **Micro-Interactions** | ReactBits (*FuseButton, SwipeToast, ThoughtLine, AccordionGallery*) | Undoing window, live latency indicator, dynamic spine gallery |
 | **Basis Data** | PostgreSQL via Supabase + Row-Level Security | `pgvector` (768 dim), `pg_trgm`, `unaccent`, `pgcrypto` |
 | **Autentikasi & Media** | Supabase Auth + Supabase Storage | 3 Buckets: `logo`, `dokumentasi`, `bukti-lembaga` (privat) |
-| **Kecerdasan Buatan (AI)** | Google Gemini Embedding (768) + Groq Llama 3.3 70B RAG | Streaming SSE + Ambang Nol Halusinasi (0.60) |
+| **Kecerdasan Buatan (AI)** | Google text-embedding-004 (768) + Groq Llama 3.3 70B RAG | Streaming SSE + Ambang Nol Halusinasi (0.60) + Gemini Flash Fallback |
 | **Validasi & Keamanan** | Zod v3 + In-memory Rate Limiter + Security Headers | Validasi unggahan anti-malware, sanitasi XSS |
-| **Pengujian** | Vitest 5 (81 unit tests) + Playwright (Produksi & Mobile 360px) | 100% kelulusan otomatis, 40 tangkapan layar audit visual |
+| **Pengujian** | Vitest 5 (90 unit tests, 13 test files) + Playwright (Produksi & Mobile 360px) | 100% kelulusan otomatis, audit keamanan & aksesibilitas WCAG AA |
 
 ---
 
@@ -106,7 +106,7 @@ Buka peramban di `http://localhost:3000`.
 | `npm run start` | Menjalankan server aplikasi siap produksi |
 | `npm run lint` | Memeriksa kepatuhan kode via ESLint flat config (`--max-warnings 0`) |
 | `npm run typecheck` | Memeriksa kepatuhan tipe TypeScript (`tsc --noEmit`) |
-| `npm run test` | Menjalankan 81 pengujian unit otomatis via Vitest (12 test files) |
+| `npm run test` | Menjalankan 90 pengujian unit otomatis via Vitest (13 test files) |
 | `npm run test:e2e` | Menjalankan pengujian integrasi E2E Produksi & Mobile via Playwright Chromium |
 | `npm run db:seed` | Mengimpor data demo 20 masalah fiqih bersanad (idempoten) |
 | `npm run db:validate` | Memvalidasi integritas relasi tabel data keputusan |
@@ -121,7 +121,7 @@ Buka peramban di `http://localhost:3000`.
 Sistem beroperasi dalam mode **100% Produksi Penuh**. Seluruh tombol jalan pintas demo instan ditiadakan untuk menjaga integritas keamanan repositori fiqih bersanad. Masuk dilakukan secara manual pada halaman [`/masuk`](file:///d:/LOMBA2/SANTRIVISION/app/(auth)/masuk/page.tsx) dengan perlindungan toggle mata (*default hidden*):
 
 1. **Admin Pusat MOCHI / Ditjen Kemenag**: `admin@mochi.pesantren.id` / Sandi: `MochiAdmin2026!`
-   - *Akses:* Verifikasi NSPP di `/admin/verifikasi`, audit laporan di `/admin/laporan`, master kitab di `/admin/kitab`, dan Dashboard Integrasi Nasional Ditjen di `/admin/ditjen`.
+   - *Akses:* Verifikasi NSPP di `/admin/verifikasi`, audit laporan di `/admin/laporan`, master kitab di `/admin/kitab`, Dashboard Integrasi Nasional Ditjen (Peta Kepulauan Nusantara SVG & Diagram Donat Fiqih) di `/admin/ditjen`, dan Konsol Pemantauan Sistem & Telemetri Pengembang (SRE Cockpit) di `/admin/pemantauan`.
 2. **Pengelola PP Lirboyo Kediri**: `lirboyo@mochi.pesantren.id` / Sandi: `Lirboyo1910!`
    - *Akses:* Dasbor pesantren terverifikasi, pembuatan forum masail baru via Wizard 5 Langkah di `/dasbor/forum/baru`, penarikan draf, dan statistik pembacaan di `/dasbor/statistik`.
 3. **Pengelola PP Tebuireng Jombang**: `tebuireng@mochi.pesantren.id` / Sandi: `Tebuireng1899!`

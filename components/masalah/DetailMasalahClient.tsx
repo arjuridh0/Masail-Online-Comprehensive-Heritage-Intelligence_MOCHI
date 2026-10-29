@@ -124,7 +124,7 @@ export function DetailMasalahClient({
     <>
       <ViewTracker targetId={masalah.id} jenis="masalah" />
 
-      <article className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-10">
+      <article className="mx-auto max-w-7xl px-3.5 sm:px-6 py-6 lg:py-10">
         {/* Tombol Kembali & Breadcrumb Navigasi */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-[#E5E3DC]/70 pb-4">
           <TombolKembali
@@ -226,7 +226,7 @@ export function DetailMasalahClient({
           </div>
 
           {/* Deskripsi Kasus / Latar Belakang Mas'alah */}
-          <div className="mt-6 rounded-2xl border border-[#D9D3C3] bg-[#FAF8F2] p-5 sm:p-6 text-stone-800">
+          <div className="mt-6 rounded-2xl border border-[#D9D3C3] bg-[#FAF8F2] p-4 sm:p-6 text-stone-800">
             <h2 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
               Deskripsi Masalah (Tasawwur al-Mas'alah):
             </h2>
@@ -327,7 +327,7 @@ export function DetailMasalahClient({
               <section
                 key={item.id}
                 id={`pertanyaan-${item.label.toLowerCase()}`}
-                className="scroll-mt-24 space-y-6 rounded-2xl border border-[#D9D3C3] bg-white p-5 sm:p-8 shadow-xs"
+                className="scroll-mt-24 space-y-6 rounded-2xl border border-[#D9D3C3] bg-white p-4 sm:p-8 shadow-xs"
               >
                 {/* As'ilah Header */}
                 <div className="border-b border-stone-200 pb-4">
@@ -387,6 +387,20 @@ export function DetailMasalahClient({
               </section>
             ))}
 
+            {/* Tampilan Mobile (< lg): Sanad Masalah & Bilah Aksi tampil SEBELUM Pembahasan Serupa */}
+            <div className="space-y-6 lg:hidden">
+              <KartuSanad data={sanadData} />
+              <BilahAksi
+                masalahId={masalah.id}
+                kode={masalah.kode}
+                judul={masalah.judul}
+                sitasiTeks={sitasiTeks}
+                urlTeks={canonicalUrl}
+                fontSize={fontSize}
+                onChangeFontSize={handleFontSizeChange}
+              />
+            </div>
+
             {/* Panel Pernah Dibahas di Forum Lain (Perbandingan Lintas Bahtsul Masail) */}
             <PanelTerkait
               masalahUtama={masalahUtamaBandingkan}
@@ -425,8 +439,8 @@ export function DetailMasalahClient({
             )}
           </main>
 
-          {/* Kolom Kanan: Bilah Aksi, Sticky Kartu Sanad, & Panel Terkait */}
-          <aside className="lg:col-span-4 space-y-6">
+          {/* Kolom Kanan Desktop: Bilah Aksi & Sticky Kartu Sanad */}
+          <aside className="hidden lg:block lg:col-span-4 space-y-6">
             {/* Bilah Aksi (Kutip, Bagikan, Lapor, Font Size) */}
             <BilahAksi
               masalahId={masalah.id}
